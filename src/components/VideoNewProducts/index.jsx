@@ -4,7 +4,7 @@ import styles from "./VideoNewProducts.module.css";
 const VideoNewProducts = () => {
   return (
     <div style={{ padding: "80px 0px" }} className="container">
-      <h3 className={styles.h3}>Sản phẩm sắp ra mắt</h3>
+      <h3 className={styles.h3}>Món ăn sắp ra mắt</h3>
       <iframe
         className={styles.iframe}
         style={{paddingTop:"30px"}}

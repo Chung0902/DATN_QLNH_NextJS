@@ -7,7 +7,7 @@ const Categories = ({ categories }) => {
   return (
     <section className={styles.categories}>
       <div className="container">
-        <h4 className={styles.h3}>Shop by Categories</h4>
+        <h4 className={styles.h3}>Danh mục món ăn</h4>
       </div>
       {categories.length > 0 ? (
         <div className={`${styles.categories} container`}>

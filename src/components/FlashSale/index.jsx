@@ -95,7 +95,7 @@ const FlashSale = ({ flashsale }) => {
       <section id="sellers">
         <div className="seller">
           <div className="p-flex">
-            <h4 className="hh4">Flash Sale</h4>
+            <h4 className="hh4">Giảm giá</h4>
             <div className="viewall">
             <Link href={`/flashSale`}>Xem tất cả <code>&gt;</code></Link>
             </div>

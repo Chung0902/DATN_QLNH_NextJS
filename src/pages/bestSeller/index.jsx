@@ -75,7 +75,7 @@ const BestSeller = ({ bestseller }) => {
       <section style={{ paddingBottom: "50px" }} id="sellers">
         <div className="seller container">
           <span className="abc">
-            <h2 className="hh4">Best Seller</h2>
+            <h2 className="hh4">Món ăn bán chạy nhất</h2>
           </span>
           {bestseller.length > 0 ? (
             <div className="best-seller">

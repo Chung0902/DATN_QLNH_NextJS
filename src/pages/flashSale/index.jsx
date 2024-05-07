@@ -77,7 +77,7 @@ const handleAddToCart = async (_id, stock) => {
       <section style={{ paddingBottom: "50px" }} id="sellers">
         <div className="seller container">
           <span className="abc">
-            <h2 className="hh4">Flash Sale</h2>
+            <h2 className="hh4">Giảm giá</h2>
           </span>
           {flashsale.length > 0 ? (
             

@@ -6,20 +6,24 @@
 }
 .wrapperItem1 {
   flex: 50%;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   position: relative;
 }
 .wrapperItem1 img {
-  margin-top: 65px;
+  /* margin-top: 65px; */
+  width: 670px;
+  height: 500px;
 }
 .wrapperItem2 {
   flex: 50%;
-  background-color: #e47878;
+  /* background-color: #e47878; */
   position: relative;
 }
 .wrapperItem2 img {
-  margin-top: 55px;
-  margin-left: 50px;
+  /* margin-top: 55px; */
+  margin-left: 10px;
+  width: 660px;
+  height: 500px;
 }
 .title {
   position: absolute;

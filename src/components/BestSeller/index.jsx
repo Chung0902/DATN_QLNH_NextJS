@@ -92,7 +92,7 @@ const BestSeller = ({ bestseller }) => {
     <section id="hotdeal">
       <div className="seller container">
         <div className="p-flex">
-          <h4 className="hh4">Best Seller</h4>
+          <h4 className="hh4">Món ăn bán chạy nhất</h4>
           <div className="viewall">
             {
               <Link href={`/bestSeller`}>
