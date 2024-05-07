@@ -23,7 +23,7 @@ const Banner = () => {
 
   return (
     <div className="banner">
-      <img src="https://simyphamonline.com/wp-content/uploads/13133-119993212-3168515296580387-3081656304725558944-o-3.jpg" alt="Product Banner" />
+      <img src="https://nhahangvuonganh.vn/wp-content/uploads/2020/10/banner-cua-PHS-2-900x900px-FILEminimizer-cua-hoang-de-giam-gia.jpg" alt="Product Banner" />
       <button className="close-button" onClick={handleBannerClose}>
         x
       </button>

@@ -1,5 +1,5 @@
 export const gallerys = [
-    {id: 1, name: 'thoitrangnam', urlImage:'https://thietkehaithanh.com/wp-content/uploads/2013/06/thietkehaithanh-banner-my-pham-1.jpg'},
-    {id: 2, name: 'thoitrangnu', urlImage:'https://intphcm.com/data/upload/banner-my-pham-noi-tieng.jpg'},
-    {id: 3, name: 'thoitrangnu2', urlImage:'https://img.nhabanhang.com/2019/07/cham-soc-da-chuan-chuyen-gia.jpg'}
+    {id: 1, name: 'hs1', urlImage:'https://haisantuoisongphanthiet.com/Uploads/images/EditSetting/banner-hsts.png'},
+    {id: 2, name: 'hs2', urlImage:'https://png.pngtree.com/background/20210711/original/pngtree-seafood-sale-e-commerce-carnival-banner-picture-image_1085817.jpg'},
+    {id: 3, name: 'hs3', urlImage:'https://vn1.vdrive.vn/haisancuabien.com/2022/03/Thuy-san-va-hai-san-khac-nhau-nhu-the-nao.jpg'}
 ]

@@ -146,7 +146,7 @@ const FlashSale = ({ flashsale }) => {
       {
         <section className="section section-ads img-df ">
           <img
-            src="https://minhduongads.com/wp-content/uploads/2023/06/Bao-gia-thiet-ke-banner-3.jpg"
+            src="https://phuchaisan.com/wp-content/uploads/2022/03/tom-hum-alaska-banner.jpg"
             alt=""
           />
         </section>
