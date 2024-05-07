@@ -122,15 +122,15 @@ function Header({ handleSearch }) {
       <div className="container">
         <div className="header-top">
           <div className="header-top-left xs-hidden">
-            FREE RETURNS. STANDARD SHIPPING ORDERS $99+
+          TRẢ LẠI MIỄN PHÍ. ĐƠN HÀNG GIAO HÀNG TIÊU CHUẨN
           </div>
           <div className="header-top-right  sm-flex-full">
             <div className="header-menu header-label d-flex">
-              <a className=" md-hidden" href="#">My Account</a>
+              {/* <a className=" md-hidden" href="#">My Account</a>
               <a className=" md-hidden" href="#">Contact Us</a>
               <a className=" md-hidden" href="#">Blog</a>
-              <a className=" md-hidden" href="#">My Wishlist</a>
-              <a className=" md-hidden" href="#">Cart</a>
+              <a className=" md-hidden" href="#">My Wishlist</a> */}
+              <a className=" md-hidden" href="#">Giỏ hàng</a>
               {isLoginSuccess ? ( // Kiểm tra trạng thái đăng nhập thành công và hiển thị avatar nếu thành công
                 <li className="has-dropdown">
                   <img
@@ -187,7 +187,7 @@ function Header({ handleSearch }) {
             <div className={`search-bar xs-hidden ${isSearchBarVisible ? 'visible' : ''}`}>
               <form className="search-form clearfix" action="" method="GET">
                 <input
-                  placeholder="Search keywords... "
+                  placeholder="Nhập tên món ăn... "
                   type="text"
                   className="search-input"
                   value={searchTerm}
@@ -212,9 +212,9 @@ function Header({ handleSearch }) {
                 <FaPhoneAlt />
               </div>
               <h6>
-                CALL US NOW{" "}
+                GỌI CHO CHÚNG TÔI NGAY{" "}
                 <a href="tel:#" className="font1">
-                  +123 5678 890
+                  0774569874
                 </a>
               </h6>
             </div>
@@ -256,19 +256,19 @@ function Header({ handleSearch }) {
           <span className="lg-hidden mclose" id="mclose"  onClick={handleMtoggleClick}>x</span>
           <ul className="d-flex">
             <li className="current">
-              <Link href="/">Home</Link>
+              <Link href="/">Trang chủ</Link>
             </li>
             <li className="has-child">
-              <Link href="/filterProducts">Categories</Link>
+              <Link href="/filterProducts">Danh mục</Link>
             </li>
             <li>
-              <Link href="/products">Products</Link>
+              <Link href="/products">Món ăn</Link>
             </li>
             <li>
               <Link href="#">Blog</Link>
             </li>
             <li>
-              <Link href="#">Contact Us</Link>
+              <Link href="#">Liên hệ với chúng tôi</Link>
             </li>
           </ul>
         </nav>

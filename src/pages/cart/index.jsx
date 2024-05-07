@@ -44,7 +44,7 @@ const Cart = () => {
     }
   }, []);
 
-  //xóa sản phẩm trong giỏ hàng
+  //xóa món ăn trong giỏ hàng
   const handleRemoveProduct = async (productId) => {
     const token = getTokenFromLocalStorage();
     if (token) {
@@ -75,20 +75,20 @@ const Cart = () => {
   const handleCheckboxChange = (productId) => {
     const isChecked = checkedProducts.includes(productId);
     if (isChecked) {
-      // Nếu sản phẩm đã được chọn thì bỏ chọn (xóa khỏi mảng checkedProducts)
+      // Nếu món ăn đã được chọn thì bỏ chọn (xóa khỏi mảng checkedProducts)
       setCheckedProducts(checkedProducts.filter((id) => id !== productId));
     } else {
-      // Nếu sản phẩm chưa được chọn thì thêm vào mảng checkedProducts
+      // Nếu món ăn chưa được chọn thì thêm vào mảng checkedProducts
       setCheckedProducts([...checkedProducts, productId]);
     }
   };
   
-  //Tính tổng tiền sản phẩm sau khi áp dụng mã giảm giá
+  //Tính tổng tiền món ăn sau khi áp dụng mã giảm giá
   const calculateTotalPrice1 = (products) => {
     let total = 0;
     products.forEach((product) => {
       if (checkedProducts.includes(product._id)) {
-        // Nếu sản phẩm có trong mảng checkedProducts, tính tổng tiền
+        // Nếu món ăn có trong mảng checkedProducts, tính tổng tiền
         total += product.productId.discountedPrice * product.quantity;
       }
     });
@@ -105,12 +105,12 @@ const Cart = () => {
     return total;
   };
 
-  //Tính tổng tiền sản phẩm trước khi áp dụng mã giảm giá
+  //Tính tổng tiền món ăn trước khi áp dụng mã giảm giá
   const calculateTotalPrice2 = (products) => {
     let total = 0;
     products.forEach((product) => {
       if (checkedProducts.includes(product._id)) {
-        // Nếu sản phẩm có trong mảng checkedProducts, tính tổng tiền
+        // Nếu món ăn có trong mảng checkedProducts, tính tổng tiền
         total += product.productId.discountedPrice * product.quantity;
       }
     });
@@ -126,7 +126,7 @@ const Cart = () => {
   };
   
 
-  // Gọi hàm updateProductPrice khi số lượng sản phẩm thay đổi
+  // Gọi hàm updateProductPrice khi số lượng món ăn thay đổi
 const handleIncreaseQuantity = async (productId, id) => {
   const token = getTokenFromLocalStorage();
   const selectedProduct = products.find((product) => product._id === productId);
@@ -192,7 +192,7 @@ const handleDecreaseQuantity = async (productId, id) => {
         if (selectedProduct) {
           const { quantity, productId: { _id, discountedPrice, name, photo, stock } } = selectedProduct;
 
-          return {_id ,quantity, price: discountedPrice, name, photo, stock }; // Thêm thông tin ảnh và tên sản phẩm
+          return {_id ,quantity, price: discountedPrice, name, photo, stock }; // Thêm thông tin ảnh và tên món ăn
         }
         return null;
       }).filter((product) => product !== null)
@@ -213,7 +213,7 @@ const handleDecreaseQuantity = async (productId, id) => {
       &discount=${encodeURIComponent(discount)}
       `);
     }else{
-      alert("Bạn cần chọn sản phẩm trước khi thanh toán")
+      alert("Bạn cần chọn món ăn trước khi thanh toán")
     }
 
   };
@@ -234,11 +234,11 @@ const handleDecreaseQuantity = async (productId, id) => {
               <div className="row">
                 <div className="col">
                   <h4>
-                    <b className={styles.heading}>Shopping Cart</b>
+                    <b className={styles.heading}>Giỏ hàng</b>
                   </h4>
                 </div>
                 <div className="col align-self-center text-right text-muted">
-                  {products.length} sản phẩm
+                  {products.length} món ăn
                 </div>
               </div>
             </div>
@@ -292,22 +292,22 @@ const handleDecreaseQuantity = async (productId, id) => {
               <a href="#" className={styles.a}>
                 ←
               </a>
-              <Link href="/">Back to shop</Link>
+              <Link href="/">Trở về</Link>
             </div>
           </div>
           <div className={`${styles.summary} col-md-4 `}>
             <div>
               <h5 className={styles.h5}>
-                <b>Summary</b>
+                <b>Đơn hàng</b>
               </h5>
             </div>
             <hr className={styles.hr} />
             <div className="row">
-              <div className="col">{checkedProducts?(<p>{checkedProducts.length} sản phẩm</p> ):(<p>0 sản phẩm</p>)}</div>
+              <div className="col">{checkedProducts?(<p>{checkedProducts.length} món ăn</p> ):(<p>0 món ăn</p>)}</div>
               <div className="col text-right">{totalPrice2.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</div>
             </div>
             <form className={styles.form}>
-              <p>Nhân viên vận chuyển</p>
+              <p>Chọn bàn ăn</p>
               <select className={styles.select}>
                 <option className="text-muted">Nhân viên A</option>
                 <option className="text-muted">Nhân viên B</option>
@@ -331,7 +331,7 @@ const handleDecreaseQuantity = async (productId, id) => {
               <div className="col">Tổng tiền</div>
               <strong className="col text-right">{totalPrice1.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</strong>
             </div>
-            <button onClick={handleBuyNow} className={styles.btn}>Mua Hàng</button>
+            <button onClick={handleBuyNow} className={styles.btn}>Đặt bàn và món ăn</button>
           </div>
         </div>
       </div>

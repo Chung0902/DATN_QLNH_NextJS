@@ -11,7 +11,7 @@ function Main({ suppliers }) {
             <div className="container" >
                 <section className="section section-one md-flex-column">
                     <aside className="categories">
-                        <h2 className="cat-title">NHÀ CUNG CẤP CHÍNH</h2>
+                        <h2 className="cat-title">NHÀ CUNG CẤP</h2>
                         {suppliers.length > 0 ? (
                             <ul className="side-menu">
                                 {suppliers.map((supplier, index) => (
@@ -39,24 +39,24 @@ function Main({ suppliers }) {
                         <div className="icon"><FaRocketchat /></div>
 
                         <div className="info-content">
-                            <h4>FREE SHIPPING & RETURN</h4>
-                            <p>Free shipping on all orders over $99.</p>
+                            <h4>MIỄN PHÍ VẬN CHUYỂN & TRẢ LẠI</h4>
+                            <p>Miễn phí vận chuyển cho tất cả các đơn hàng giá trị cao</p>
                         </div>
                     </div>
                     <div className="info-box">
                         <div className="icon"><FaCommentsDollar /></div>
 
                         <div className="info-content">
-                            <h4>MONEY BACK GUARANTEE</h4>
-                            <p>100% money backs guarantee</p>
+                            <h4>ĐẢM BẢO HOÀN TIỀN</h4>
+                            <p>Đảm bảo hoàn lại tiền 100%</p>
                         </div>
                     </div>
                     <div className="info-box">
                         <div className="icon"><FaCommentDots /></div>
 
                         <div className="info-content">
-                            <h4>ONLINE SUPPORT 24/7</h4>
-                            <p>orem ipsum dolor sit amet..</p>
+                            <h4>HỖ TRỢ TRỰC TUYẾN 24/7</h4>
+                            <p>Trả lời các thắc mắc của khách hàng</p>
                         </div>
                     </div>
                 </section>

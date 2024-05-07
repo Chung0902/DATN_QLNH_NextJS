@@ -407,6 +407,13 @@ const Checkout = () => {
             <input onChange={(event) => setDescription(event.target.value)} type="text" />
           </div>
 
+          <div className={styles.comment}>
+            <p>Chọn bàn ăn:</p>
+            <selete>
+              <option>Bàn A1</option>
+            </selete>
+          </div>
+
           <div className={styles.totalPriceBefore}>
             <p>
               Tổng tiền cho{" "}
