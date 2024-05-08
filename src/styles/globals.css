@@ -949,12 +949,14 @@ ul {
   position: absolute;
   padding: 5px 10px;
   background-color: transparent;
-  color: rgb(112, 112, 112);
+  color: white;
   border: none;
   cursor: pointer;
   font-size: 50px;
   top: 8%;
   right: 36%;
+  margin-left: 250px;
+  margin-right: -50px;
 }
 .banner :hover.close-button {
   color: #000000;
@@ -1188,11 +1190,14 @@ ul {
   height: 400px;
   text-decoration: none;
   position: relative;
+  /* margin-right: 10px; */
 }
 
 .seller .best-p1 img {
   height: 250px;
   width: 250px;
+  padding-right: 15px;
+  margin-right: 20px;
 }
 
 .product-name {

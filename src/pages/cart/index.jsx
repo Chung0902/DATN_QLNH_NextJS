@@ -267,14 +267,14 @@ const handleDecreaseQuantity = async (productId, id) => {
                    </div>
                    <div className={styles.wrapQuantityAndPrice}>
                    <div className={styles.quantity}>
-                    <div onClick={() => handleIncreaseQuantity(p._id,p.productId._id)}>
-                    <a className={styles.btnQuantity}>+</a>
+                   <div onClick={() => handleDecreaseQuantity(p._id,p.productId._id)}>
+                    <a  className={styles.btnQuantity}>-</a>
                     </div>
                     <div>
                     <input className={styles.inputQuatity} type="text" value={p.quantity} readOnly/>
                     </div>
-                    <div onClick={() => handleDecreaseQuantity(p._id,p.productId._id)}>
-                    <a  className={styles.btnQuantity}>-</a>
+                    <div onClick={() => handleIncreaseQuantity(p._id,p.productId._id)}>
+                    <a className={styles.btnQuantity}>+</a>
                     </div>
                    </div>
                    <div className={styles.price}>

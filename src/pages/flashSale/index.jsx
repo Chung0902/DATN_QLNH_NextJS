@@ -45,7 +45,7 @@ const handleAddToCart = async (_id, stock) => {
     alert("Sản phẩm không còn trong kho. Vui lòng chọn sản phẩm khác.");
     return; // Dừng thực hiện hàm nếu stock nhỏ hơn 1
   }
-  if (token) {
+  if (token ) {
     try {
       const response = await axiosClient.post(
         `/user/cart`,
