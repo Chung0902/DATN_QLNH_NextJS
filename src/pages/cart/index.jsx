@@ -44,6 +44,13 @@ const Cart = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (customerId) {
+      fetchCartData1(customerId);
+    }
+  }, [customerId]);
+  
+
   //xóa món ăn trong giỏ hàng
   const handleRemoveProduct = async (productId) => {
     const token = getTokenFromLocalStorage();
