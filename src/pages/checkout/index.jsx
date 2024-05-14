@@ -146,6 +146,11 @@ const Checkout = ({ tables }) => {
     setIsModalOpen(false);
   };
 
+  // Hàm để xóa sản phẩm khỏi giỏ hàng
+  const clearCart = () => {
+    localStorage.removeItem("cartItems");
+  };
+
   // Xử lý khi nhấn nút "Thanh toán"
   const handlePayment = async () => {
     const token = getTokenFromLocalStorage();
@@ -194,6 +199,8 @@ const Checkout = ({ tables }) => {
             `Đã cập nhật stock của sản phẩm ${product._id} thành công!`
           );
         }
+
+        clearCart(); // Gọi một hàm để xóa giỏ hàng
 
         router.push("/checkoutSuccess");
       } catch (error) {
@@ -297,6 +304,8 @@ const Checkout = ({ tables }) => {
   const handlePaymentToggle = () => {
     setIsPaymentShown(!isPaymentShown);
   };
+
+ 
 
   return (
     <div style={{ backgroundColor: " #f7f7f7" }}>
