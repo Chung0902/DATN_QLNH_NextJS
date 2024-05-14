@@ -31,9 +31,24 @@ const Checkout = () => {
   const [isPayPalActive, setIsPayPalActive] = useState(false);
   const [sdkReady, setSdkReady] = useState(false);
   const router = useRouter();
+  
+  const { tables } = router.query;
+const [selectedTable, setSelectedTable] = useState("");
+
+useEffect(() => {
+  // Lấy giá trị bàn từ URL khi trang tải
+  if (router.query.tableId && Array.isArray(tables) && tables.length > 0) {
+    // Tìm tên bàn trong danh sách bàn dựa trên tableId
+    const selectedTable = tables.find(table => table._id === router.query.tableId);
+    if (selectedTable) {
+      setSelectedTable(selectedTable.name);
+    }
+  }
+}, [router.query.tableId, tables]);
 
 
-  const { products, totalPrice, discount } = router.query;
+  const { products, totalPrice, discount  } = router.query;
+
 
   const selectedProducts = products ? JSON.parse(products) : [];
 
@@ -289,7 +304,7 @@ const Checkout = () => {
           <div className={styles.addressTitle}>
             <h2 className={styles.title}>
               <IoLocationSharp />
-              Địa chỉ nhận hàng
+              Địa chỉ
             </h2>
             <div>
               <p className={styles.p}>{fullName}</p>
@@ -304,7 +319,7 @@ const Checkout = () => {
               Thay đổi
             </p>
             <Modal
-              title="Nhập địa chỉ giao hàng"
+              title="Nhập địa"
               open={isModalOpen}
               onOk={handleOk}
               onCancel={handleCancel}
@@ -406,12 +421,8 @@ const Checkout = () => {
             <p>Lời nhắn:</p>
             <input onChange={(event) => setDescription(event.target.value)} type="text" />
           </div>
-
-          <div className={styles.comment}>
-            <p>Chọn bàn ăn:</p>
-            <selete>
-              <option>Bàn A1</option>
-            </selete>
+          <div className={styles.payMethod}>
+            <p>Bàn đã chọn: {selectedTable}</p>
           </div>
 
           <div className={styles.totalPriceBefore}>
@@ -454,13 +465,13 @@ const Checkout = () => {
                   <td>Tổng tiền hàng:</td>
                   <td>{totalPriceValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td>Phí vận chuyển:</td>
                   <td>{(11000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
-                </tr>
+                </tr> */}
                 <tr>
                   <td>Tổng thanh toán:</td>
-                  <td className={styles.td}>{(totalPriceValue + 11000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                  <td className={styles.td}>{(totalPriceValue + 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                 </tr>
               </tbody>
             </table>

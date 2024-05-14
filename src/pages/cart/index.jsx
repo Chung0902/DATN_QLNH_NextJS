@@ -13,7 +13,7 @@ import axiosClient from "../../libraries/axiosClient.js";
 import useCartStore from "@/stores/cartStore";
 
 
-const Cart = () => {
+const Cart = ({ tables }) => {
   const [customerId, setCustomerId] = useState(null);
   const [products, setProducts] = useState([]);
   const [checkedProducts, setCheckedProducts] = useState([]);
@@ -21,7 +21,9 @@ const Cart = () => {
   const router = useRouter();
   const { cartItems, fetchCartData1 } = useCartStore();
 
-  
+  const [tableId, setTableId] = useState(""); // Định nghĩa state tableId
+
+
   const handleCouponCodeChange = (event) => {
     setCouponCode(event.target.value);
   };
@@ -215,9 +217,11 @@ const handleDecreaseQuantity = async (productId, id) => {
     }
   
     if(checkedProducts.length > 0){
+      // Đưa thông tin về sản phẩm và các thông tin khác như tổng giá và giảm giá vào URL query string
       router.push(`/checkout?products=${encodeURIComponent(selectedProductsQueryParam)}
       &totalPrice=${encodeURIComponent(totalPriceQueryParam)}
       &discount=${encodeURIComponent(discount)}
+      &tableId=${encodeURIComponent(tableId)}
       `);
     }else{
       alert("Bạn cần chọn món ăn trước khi thanh toán")
@@ -315,10 +319,36 @@ const handleDecreaseQuantity = async (productId, id) => {
             </div>
             <form className={styles.form}>
               <p>Chọn bàn ăn</p>
-              <select className={styles.select}>
+              <select 
+                className={styles.select}
+                required
+                onChange={(event) => {
+                  setTableId(event.target.value);
+                }}
+              >
+                <option value="">-- Chọn bàn --</option>
+                {
+                  tables.map((table) => {
+                    if (
+                      (table.status !== "Đã đặt" &&
+                        table.setup === "Có sẵn") ||
+                      (table.status !== "Đã đặt" &&
+                        table.setup === "Không có sẵn")
+                    ) {
+                      return (
+                        <option key={table._id} value={table._id}>
+                          {table.name}
+                        </option>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+              </select>
+              {/* <select className={styles.select}>
                 <option className="text-muted">Nhân viên A</option>
                 <option className="text-muted">Nhân viên B</option>
-              </select>
+              </select> */}
               <p>Mã giảm giá</p>
               <input
                 className={styles.input}
@@ -348,3 +378,20 @@ const handleDecreaseQuantity = async (productId, id) => {
 };
 
 export default Cart;
+
+export async function getServerSideProps() {
+  try {
+    const response = await axiosClient.get("/user/tables");
+
+    return {
+      props: {
+        tables: response.data.payload,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+}
+
