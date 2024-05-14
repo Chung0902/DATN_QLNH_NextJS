@@ -13,7 +13,7 @@ import axiosClient from "../../libraries/axiosClient.js";
 import useCartStore from "@/stores/cartStore";
 
 
-const Cart = ({ tables }) => {
+const Cart = () => {
   const [customerId, setCustomerId] = useState(null);
   const [products, setProducts] = useState([]);
   const [checkedProducts, setCheckedProducts] = useState([]);
@@ -224,7 +224,7 @@ const handleDecreaseQuantity = async (productId, id) => {
       &tableId=${encodeURIComponent(tableId)}
       `);
     }else{
-      alert("Bạn cần chọn món ăn trước khi thanh toán")
+      alert("Bạn cần chọn món ăn và bàn trước khi thanh toán")
     }
 
   };
@@ -318,7 +318,7 @@ const handleDecreaseQuantity = async (productId, id) => {
               <div className="col text-right">{totalPrice2.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</div>
             </div>
             <form className={styles.form}>
-              <p>Chọn bàn ăn</p>
+              {/* <p>Chọn bàn ăn</p>
               <select 
                 className={styles.select}
                 required
@@ -344,7 +344,7 @@ const handleDecreaseQuantity = async (productId, id) => {
                       return null;
                     }
                   })}
-              </select>
+              </select> */}
               {/* <select className={styles.select}>
                 <option className="text-muted">Nhân viên A</option>
                 <option className="text-muted">Nhân viên B</option>
@@ -379,19 +379,19 @@ const handleDecreaseQuantity = async (productId, id) => {
 
 export default Cart;
 
-export async function getServerSideProps() {
-  try {
-    const response = await axiosClient.get("/user/tables");
+// export async function getServerSideProps() {
+//   try {
+//     const response = await axiosClient.get("/user/tables");
 
-    return {
-      props: {
-        tables: response.data.payload,
-      },
-    };
-  } catch (error) {
-    return {
-      notFound: true,
-    };
-  }
-}
+//     return {
+//       props: {
+//         tables: response.data.payload,
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       notFound: true,
+//     };
+//   }
+// }
 

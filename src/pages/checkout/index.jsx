@@ -13,7 +13,7 @@ import { getTokenFromLocalStorage } from "@/utils/tokenUtils";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
 
-const Checkout = () => {
+const Checkout = ({ tables }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
@@ -31,20 +31,23 @@ const Checkout = () => {
   const [isPayPalActive, setIsPayPalActive] = useState(false);
   const [sdkReady, setSdkReady] = useState(false);
   const router = useRouter();
-  
-  const { tables } = router.query;
-const [selectedTable, setSelectedTable] = useState("");
 
-useEffect(() => {
-  // Lấy giá trị bàn từ URL khi trang tải
-  if (router.query.tableId && Array.isArray(tables) && tables.length > 0) {
-    // Tìm tên bàn trong danh sách bàn dựa trên tableId
-    const selectedTable = tables.find(table => table._id === router.query.tableId);
-    if (selectedTable) {
-      setSelectedTable(selectedTable.name);
-    }
-  }
-}, [router.query.tableId, tables]);
+  const [tableId, setTableId] = useState("");
+  
+  
+//   const { tables } = router.query;
+// const [selectedTable, setSelectedTable] = useState("");
+
+// useEffect(() => {
+//   // Lấy giá trị bàn từ URL khi trang tải
+//   if (router.query.tableId && Array.isArray(tables) && tables.length > 0) {
+//     // Tìm tên bàn trong danh sách bàn dựa trên tableId
+//     const selectedTable = tables.find(table => table._id === router.query.tableId);
+//     if (selectedTable) {
+//       setSelectedTable(selectedTable.name);
+//     }
+//   }
+// }, [router.query.tableId, tables]);
 
 
   const { products, totalPrice, discount  } = router.query;
@@ -162,6 +165,7 @@ useEffect(() => {
           discount: discount,
           customerId: customerId,
           orderDetails: orderDetails,
+          tableId: tableId,
           isDelete: false,
         };
 
@@ -422,7 +426,35 @@ useEffect(() => {
             <input onChange={(event) => setDescription(event.target.value)} type="text" />
           </div>
           <div className={styles.payMethod}>
-            <p>Bàn đã chọn: {selectedTable}</p>
+            {/* <p>Bàn đã chọn: {selectedTable}</p> */}
+            <select 
+  className={styles.select}
+  required
+  onChange={(event) => {
+    setTableId(event.target.value);
+  }}
+>
+  <option value="">-- Chọn bàn --</option>
+  {
+    tables.map((table) => {
+      if (
+        (table.status !== "Đã đặt" &&
+          table.setup === "Có sẵn") ||
+        (table.status !== "Đã đặt" &&
+          table.setup === "Không có sẵn")
+      ) {
+        return (
+          <option key={table._id} value={table._id}>
+            {table.name} ---- {table._id}
+          </option>
+        );
+      } else {
+        return null;
+      }
+    })
+  }
+</select>
+
           </div>
 
           <div className={styles.totalPriceBefore}>
@@ -505,3 +537,19 @@ useEffect(() => {
 };
 
 export default Checkout;
+
+export async function getServerSideProps() {
+  try {
+    const response = await axiosClient.get("/user/tables");
+
+    return {
+      props: {
+        tables: response.data.payload,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+}
