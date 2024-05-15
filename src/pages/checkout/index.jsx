@@ -312,7 +312,7 @@ const Checkout = ({ tables }) => {
       <HeadMeta title="Checkout" />
       <Header />
       <main className={`${styles.body} container`}>
-        <h1 className={styles.heading}>Thanh toán</h1>
+        <h1 className={styles.heading}>Chi tiết đơn đặt</h1>
         <div className={styles.wrapperAddress}>
           <div className={styles.addressTitle}>
             <h2 className={styles.title}>
@@ -435,33 +435,33 @@ const Checkout = ({ tables }) => {
             <input onChange={(event) => setDescription(event.target.value)} type="text" />
           </div>
           <div className={styles.payMethod}>
-            {/* <p>Bàn đã chọn: {selectedTable}</p> */}
+            <h3>Bàn đã chọn: </h3>
             <select 
-  className={styles.select}
-  required
-  onChange={(event) => {
-    setTableId(event.target.value);
-  }}
->
-  <option value="">-- Chọn bàn --</option>
-  {
-    tables.map((table) => {
-      if (
-        (table.status !== "Đã đặt" &&
-          table.setup === "Có sẵn") ||
-        (table.status !== "Đã đặt" &&
-          table.setup === "Không có sẵn")
-      ) {
-        return (
-          <option key={table._id} value={table._id}>
-            {table.name} ---- {table._id}
-          </option>
-        );
-      } else {
-        return null;
-      }
-    })
-  }
+            className={styles.select}
+            required
+            onChange={(event) => {
+              setTableId(event.target.value);
+            }}
+          >
+            <option value="">-- Chọn bàn --</option>
+            {
+              tables.map((table) => {
+                if (
+                  (table.status !== "Đã đặt" &&
+                    table.setup === "Có sẵn") ||
+                  (table.status !== "Đã đặt" &&
+                    table.setup === "Không có sẵn")
+                ) {
+                  return (
+                    <option key={table._id} value={table._id}>
+                      {table.name} ---- Số ghế: {table.numberOfSeats}
+                    </option>
+                  );
+                } else {
+                  return null;
+                }
+              })
+            }
 </select>
 
           </div>
@@ -533,7 +533,7 @@ const Checkout = ({ tables }) => {
             ) : (
               <div className={styles.btn}>
               <button style={{ width: "200px" }} onClick={handlePayment}>
-                Thanh toán
+                Đặt đơn
               </button>
               </div>
             )}

@@ -92,7 +92,7 @@ const handleAddToCart = async (_id, stock) => { // Thêm tham số stock vào h�
       <section style={{ paddingBottom: "100px" }} id="sellers">
         <div className="seller container">
           <span className="abc">
-            <h3 className={styles.h3}>All Products</h3>
+            <h3 className={styles.h3}>Tất cả món ăn</h3>
           </span>
           {products.length > 0 ? (
             <div className="best-seller">

@@ -21,7 +21,7 @@ const items = [
     null,
     [
       getItem("Sửa hồ sơ", "6", <BsFillPencilFill />),
-      getItem("Đơn mua", "2", <GrDocumentText />),
+      getItem("Đơn đặt", "2", <GrDocumentText />),
     ],
     "group"
   ),

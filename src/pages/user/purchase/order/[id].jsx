@@ -37,7 +37,7 @@ const items = [
     null,
     [
       getItem("Sửa hồ sơ", "13", <BsFillPencilFill />),
-      getItem("Đơn mua", "14", <GrDocumentText />),
+      getItem("Đơn đặt", "14", <GrDocumentText />),
     ],
     "group"
   ),
@@ -203,12 +203,12 @@ const App = () => {
                           onClick={() => handleCompletedOrder(p._id)}
                           className={styles.btnDeliveringDetail}
                         >
-                          Đã nhận được hàng
+                          Đã hoàn thành đơn
                         </button>
                       ))}
                     {p.status === "CANCELED" && (
                       <h4 className={styles.h4Canceled}>
-                        Đơn hàng đã được hủy
+                        Đơn đặt đã được hủy
                       </h4>
                     )}
                   </div>

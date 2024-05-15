@@ -265,7 +265,7 @@ const ProductCategory = () => {
       <div className={`${styles.main} container`}>
         <div className={styles.wrapperFilter}>
           <div className={styles.filterCate}>
-            <h3 className={styles.h3}>CATEGORIES</h3>
+            <h3 className={styles.h3}>DANH MỤC</h3>
             {cate.map((c) => (
               <div key={c._id}>
                 <Checkbox
@@ -280,7 +280,7 @@ const ProductCategory = () => {
             ))}
           </div>
           <div className={styles.filterPrice}>
-            <h3>FILTER BY PRICE</h3>
+            <h3>LỌC THEO GIÁ</h3>
             <div>
               <Slider
                 max={500000}

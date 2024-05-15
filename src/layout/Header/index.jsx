@@ -130,7 +130,7 @@ function Header({ handleSearch }) {
               <a className=" md-hidden" href="#">Contact Us</a>
               <a className=" md-hidden" href="#">Blog</a>
               <a className=" md-hidden" href="#">My Wishlist</a>
-              <a className=" md-hidden" href="#">Giỏ hàng</a>
+              <a className=" md-hidden" href="#">Cart</a>
               {isLoginSuccess ? ( // Kiểm tra trạng thái đăng nhập thành công và hiển thị avatar nếu thành công
                 <li className="has-dropdown">
                   <img
@@ -145,7 +145,7 @@ function Header({ handleSearch }) {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/user/purchase">Đơn mua</Link>
+                      <Link href="/user/purchase">Đơn đặt</Link>
                     </li>
                     {isMobile ? (
                     <li>

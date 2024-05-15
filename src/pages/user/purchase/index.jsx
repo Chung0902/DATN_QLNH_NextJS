@@ -8,7 +8,7 @@ import { BsFillCarFrontFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { ImArrowLeft2 } from "react-icons/im";
 import jwt_decode from "jwt-decode";
-import { Button, Modal } from 'antd';
+import { Button, Modal } from "antd";
 
 import HeadMeta from "@/components/HeadMeta";
 import Header from "@/layout/Header";
@@ -27,7 +27,6 @@ const App = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -69,7 +68,9 @@ const App = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        const ordersWithMatchingCustomerId = response.data.payload.filter(order => order.customerId === customerId);
+        const ordersWithMatchingCustomerId = response.data.payload.filter(
+          (order) => order.customerId === customerId
+        );
 
         setOrder(ordersWithMatchingCustomerId);
       } catch (error) {
@@ -122,7 +123,6 @@ const App = () => {
     }
   };
 
-  
   const showModal2 = () => {
     setIsModalOpen2(true);
   };
@@ -158,7 +158,7 @@ const App = () => {
 
   return (
     <>
-      <HeadMeta title="Order"/>
+      <HeadMeta title="Order" />
       <Header />
       <main className={styles.main}>
         <div style={{ display: "flex" }} className="container">
@@ -174,7 +174,7 @@ const App = () => {
               <Link href="/">
                 <ImArrowLeft2 style={{ fontSize: "24px", marginTop: "10px" }} />
               </Link>
-              <h3 className={styles.heading}>Đơn mua</h3>
+              <h3 className={styles.heading}></h3>
             </div>
           ) : (
             ""
@@ -211,7 +211,7 @@ const App = () => {
                   }
                   onClick={() => handleTabClick("delivering")}
                 >
-                  Đang giao
+                  Đang thực hiện món ăn
                 </div>
                 <div
                   className={
@@ -277,27 +277,36 @@ const App = () => {
                           <p style={{ fontSize: "14px" }}>x{o.quantity}</p>
                         </div>
                       </Link>
-                      <span>{(o.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                      <span>
+                        {o.price.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </span>
                     </div>
                   ))}
                   <div className={styles.wrapperTotal}>
                     <div className={styles.totalPrice}>
                       <h4>Thành tiền: </h4>
                       <span>
-                        {p.orderDetails.reduce(
-                          (total, o) =>
-                            total +
-                            o.price * o.quantity * (1 - p.discount / 100),
-                          11000
-                        ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                        
+                        {p.orderDetails
+                          .reduce(
+                            (total, o) =>
+                              total +
+                              o.price * o.quantity * (1 - p.discount / 100),
+                            11000
+                          )
+                          .toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
                       </span>
                     </div>
                     <button
                       style={{ marginRight: "20px", padding: "0px 25px" }}
                       className={styles.btnDelivering}
                     >
-                      <Link href="/cart">Mua lại</Link>
+                      <Link href="/cart">Đặt lại</Link>
                     </button>
                     {p.status === "WAITING" && (
                       <>
@@ -307,9 +316,14 @@ const App = () => {
                         >
                           Hủy đơn
                         </button>
-                        <Modal title="Thông báo!" open={isModalOpen} onOk={() => handleOk(p._id, p.orderDetails)} onCancel={handleCancel}>
-                        <p>Bạn có muốn hủy đơn hàng?</p>
-                      </Modal>
+                        <Modal
+                          title="Thông báo!"
+                          open={isModalOpen}
+                          onOk={() => handleOk(p._id, p.orderDetails)}
+                          onCancel={handleCancel}
+                        >
+                          <p>Bạn có muốn hủy đơn hàng?</p>
+                        </Modal>
                       </>
                     )}
                     {p.status === "CANCELED" && (
@@ -317,20 +331,25 @@ const App = () => {
                     )}
                     {p.status === "COMPLETED" && (
                       <button className={styles.btnCompleted}>
-                        Đã nhận được hàng
+                        Đã hoàn thành đơn
                       </button>
                     )}
                     {p.status === "DELIVERING" && (
                       <>
-                      <button
-                        onClick={showModal2}
-                        className={styles.btnDelivering}
-                      >
-                        Đã nhận được hàng
-                      </button>
-                      <Modal title="Thông báo!" open={isModalOpen2} onOk={() => handleOk2(p._id)} onCancel={handleCancel2}>
-                      <p>Bạn có muốn xác nhận đơn hàng đã được giao?</p>
-                    </Modal>
+                        <button
+                          onClick={showModal2}
+                          className={styles.btnDelivering}
+                        >
+                          Đã hoàn thành đơn
+                        </button>
+                        <Modal
+                          title="Thông báo!"
+                          open={isModalOpen2}
+                          onOk={() => handleOk2(p._id)}
+                          onCancel={handleCancel2}
+                        >
+                          <p>Bạn có muốn xác nhận đơn hàng đã được giao?</p>
+                        </Modal>
                       </>
                     )}
                   </div>
