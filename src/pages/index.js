@@ -15,6 +15,8 @@ import Elementor from '@/components/Elementor'
 import VideoNewProducts from '@/components/VideoNewProducts'
 import Banner from '@/components/Banner'
 import ChatOnline from '@/components/ChatOnline'
+import ScrollToTop from 'react-scroll-to-top'
+
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -32,8 +34,11 @@ export default function Home({categories,flashsale,bestseller,suppliers}) {
     <BestSeller bestseller={bestseller}/>
     <ProductList/>
     <VideoNewProducts/>
-    <ChatOnline/>
+    {/* <ChatOnline/> */}
+    
     <Footer/>
+    <ScrollToTop smooth color="#ffffff" style={{ backgroundColor: '#4682B4' }} />
+
     </>
   )
 }
