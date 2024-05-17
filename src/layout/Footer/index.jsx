@@ -14,7 +14,7 @@ function Footer(props) {
               <i className="fas fa-map-marker-alt" />
               <div className="cta-text">
                 <h4>Địa chỉ </h4>
-                <span> Võ Nguyên Giáp, Đà Nẵng</span>
+                <span>139 Võ Nguyên Giáp, Đà Nẵng</span>
               </div>
             </div>
           </div>
@@ -31,8 +31,8 @@ function Footer(props) {
             <div className="single-cta">
               <i className="far fa-envelope-open" />
               <div className="cta-text">
-                <h4>Mail</h4>
-                <span>nhhs@gmail.com</span>
+                <h4>Email</h4>
+                <span>elysian@gmail.com</span>
               </div>
             </div>
           </div>
@@ -122,7 +122,7 @@ function Footer(props) {
               </div>
               <div className="subscribe-form">
                 <form action="#">
-                  <input type="text" placeholder="Email Address" />
+                  <input type="text" placeholder="Địa chỉ Email" />
                   <button>
                     <i className="fab fa-telegram-plane" />
                   </button>

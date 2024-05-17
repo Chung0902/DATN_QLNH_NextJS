@@ -131,11 +131,11 @@ function Header({ handleSearch }) {
           </div>
           <div className="header-top-right  sm-flex-full">
             <div className="header-menu header-label d-flex">
-              <a className=" md-hidden" href="#">My Account</a>
-              <a className=" md-hidden" href="#">Contact Us</a>
-              <a className=" md-hidden" href="#">Blog</a>
-              <a className=" md-hidden" href="#">My Wishlist</a>
-              <a className=" md-hidden" href="#">Cart</a>
+              <a className=" md-hidden" href="#">Tài khoản của tôi</a>
+              <a className=" md-hidden" href="#">Liên hệ với chúng tôi</a>
+              {/* <a className=" md-hidden" href="#">Blog</a> */}
+              <a className=" md-hidden" href="#">Món ăn yêu thích</a>
+              <a className=" md-hidden" href="#">Giỏ hàng</a>
               {isLoginSuccess ? ( // Kiểm tra trạng thái đăng nhập thành công và hiển thị avatar nếu thành công
                 <li className="has-dropdown">
                   <img
@@ -270,7 +270,7 @@ function Header({ handleSearch }) {
               <Link href="/products">Món ăn</Link>
             </li>
             <li>
-              <Link href="#">Blog</Link>
+              <Link href="/tables">Bàn ăn</Link>
             </li>
             <li>
               <Link href="#">Liên hệ với chúng tôi</Link>

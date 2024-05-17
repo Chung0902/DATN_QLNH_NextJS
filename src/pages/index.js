@@ -37,7 +37,7 @@ export default function Home({categories,flashsale,bestseller,suppliers}) {
     {/* <ChatOnline/> */}
     
     <Footer/>
-    <ScrollToTop smooth color="#ffffff" style={{ backgroundColor: '#4682B4' }} />
+    <ScrollToTop smooth color="#ffffff" style={{ backgroundColor: '#0088cc' }} />
 
     </>
   )
