@@ -319,7 +319,7 @@ const App = () => {
                           <td>Phương thức thanh toán:</td>
                           <td>
                             {p.paymentType === "CASH"
-                              ? "Thanh toán khi nhận hàng"
+                              ? "Thanh toán khi hoàn thành"
                               : "Đã thanh toán bằng Paypal"}
                           </td>
                         </tr>

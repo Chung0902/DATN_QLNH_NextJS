@@ -489,12 +489,12 @@ const Checkout = ({ tables }) => {
               className={`${styles.paymentItem} ${!isPayPalActive ? styles.active : ''}`}
               onClick={handleCODClick}
             >
-              Thanh toán khi nhận hàng
+              Thanh toán khi hoàn thành
             </div>
           </div>
         ) : (
           <div className={styles.payBefore} style={{ display: 'flex' }}>
-            <p>Thanh toán khi nhận hàng</p>
+            <p>Thanh toán khi hoàn thành</p>
             <span onClick={handlePaymentToggle}>Thay đổi</span>
           </div>
         )}
@@ -522,7 +522,7 @@ const Checkout = ({ tables }) => {
                <div className={styles.btnPaypal}>
                <div style={{ width: "200px" }}>
                  <PayPalButton          
-                  amount={ Math.round( (totalPriceValue+11000) / 23678)}
+                  amount={ Math.round( (totalPriceValue+ 0) / 23678)}
                   onSuccess={onSuccessPaypal}
                   onError={() =>{
                     alert('Error')

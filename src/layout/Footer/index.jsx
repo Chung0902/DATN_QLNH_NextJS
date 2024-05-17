@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import {FaBattleNet} from "react-icons/fa";
+import Link from "next/link";
 
 function Footer(props) {
   return (
@@ -12,8 +13,8 @@ function Footer(props) {
             <div className="single-cta">
               <i className="fas fa-map-marker-alt" />
               <div className="cta-text">
-                <h4>Find us</h4>
-                <span>1010 Avenue, sw 54321, chandigarh</span>
+                <h4>Địa chỉ </h4>
+                <span> Võ Nguyên Giáp, Đà Nẵng</span>
               </div>
             </div>
           </div>
@@ -21,8 +22,8 @@ function Footer(props) {
             <div className="single-cta">
               <i className="fas fa-phone" />
               <div className="cta-text">
-                <h4>Call us</h4>
-                <span>9876543210 0</span>
+                <h4> Gọi cho chúng tôi</h4>
+                <span>0774569874</span>
               </div>
             </div>
           </div>
@@ -30,8 +31,8 @@ function Footer(props) {
             <div className="single-cta">
               <i className="far fa-envelope-open" />
               <div className="cta-text">
-                <h4>Mail us</h4>
-                <span>mail@info.com</span>
+                <h4>Mail</h4>
+                <span>nhhs@gmail.com</span>
               </div>
             </div>
           </div>
@@ -42,23 +43,21 @@ function Footer(props) {
           <div className="col-xl-4 col-lg-4 mb-50">
             <div className="footer-widget">
               <div className="footer-logo">
-                <a href="index.html">
-                  <img
-                    src="https://i.ibb.co/QDy827D/ak-logo.png"
-                    className="img-fluid"
-                    alt="logo"
-                  />
-                </a>
+              <Link href="/" className="navbar-brand">
+              <FaBattleNet /> Elysian 
+            </Link>
               </div>
               <div className="footer-text">
                 <p>
-                  Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed
-                  do eiusmod tempor incididuntut consec tetur adipisicing
-                  elit,Lorem ipsum dolor sit amet.
+                Nhà hàng hải sản của chúng tôi là điểm đến lý tưởng cho 
+                    những ai đam mê hương vị tươi ngon từ biển cả. Với không 
+                    gian ấm cúng và đa dạng món ăn, chúng tôi tự hào mang đến 
+                    cho quý khách trải nghiệm ẩm thực độc đáo và đầy hấp dẫn. 
+                    Hãy đến và khám phá thế giới hải sản tươi ngon tại nhà hàng của chúng tôi!
                 </p>
               </div>
               <div className="footer-social-icon">
-                <span>Follow us</span>
+                <span>Theo dõi chúng tôi</span>
                 <a href="#">
                   <i className="fab fa-facebook-f facebook-bg" />
                 </a>
@@ -74,51 +73,51 @@ function Footer(props) {
           <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
             <div className="footer-widget">
               <div className="footer-widget-heading">
-                <h3>Useful Links</h3>
+                <h3>Liên kết hữu ích</h3>
               </div>
               <ul>
                 <li>
-                  <a href="#">Home</a>
+                  <a href="#">Trang chủ</a>
                 </li>
                 <li>
-                  <a href="#">about</a>
+                  <a href="#">Giới thiệu</a>
                 </li>
                 <li>
-                  <a href="#">services</a>
+                  <a href="#">Dịch vụ</a>
                 </li>
                 <li>
-                  <a href="#">portfolio</a>
+                  <a href="#">Danh mục</a>
                 </li>
                 <li>
-                  <a href="#">Contact</a>
+                  <a href="#">Liên hệ</a>
                 </li>
                 <li>
-                  <a href="#">About us</a>
+                  <a href="#">Về chúng tôi</a>
                 </li>
                 <li>
-                  <a href="#">Our Services</a>
+                  <a href="#">Dịch vụ của chúng tôi</a>
                 </li>
                 <li>
-                  <a href="#">Expert Team</a>
+                  <a href="#">Đội ngũ chuyên gia</a>
                 </li>
                 <li>
-                  <a href="#">Contact us</a>
+                  <a href="#">Liên hệ với chúng tôi</a>
                 </li>
                 <li>
-                  <a href="#">Latest News</a>
+                  <a href="#">Tin tức mới nhất</a>
                 </li>
               </ul>
+
             </div>
           </div>
           <div className="col-xl-4 col-lg-4 col-md-6 mb-50">
             <div className="footer-widget">
               <div className="footer-widget-heading">
-                <h3>Subscribe</h3>
+                <h3>Đặt mua</h3>
               </div>
               <div className="footer-text mb-25">
                 <p>
-                  Don’t miss to subscribe to our new feeds, kindly fill the form
-                  below.
+                Đừng bỏ lỡ việc đăng ký các nguồn cấp dữ liệu mới của chúng tôi, vui lòng điền vào biểu mẫu bên dưới.
                 </p>
               </div>
               <div className="subscribe-form">
@@ -140,12 +139,12 @@ function Footer(props) {
           <div className="col-xl-6 col-lg-6 text-center text-lg-left">
             <div className="copyright-text">
               <p>
-                Copyright © 2018, All Right Reserved{" "}
-                <a href="https://codepen.io/anupkumar92/">Anup</a>
+                Nguyễn Thị Chung © 0902_QLNH
+                {/* <a href="https://codepen.io/anupkumar92/">Anup</a> */}
               </p>
             </div>
           </div>
-          <div className="col-xl-6 col-lg-6 d-none d-lg-block text-right">
+          {/* <div className="col-xl-6 col-lg-6 d-none d-lg-block text-right">
             <div className="footer-menu">
               <ul>
                 <li>
@@ -165,7 +164,7 @@ function Footer(props) {
                 </li>
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

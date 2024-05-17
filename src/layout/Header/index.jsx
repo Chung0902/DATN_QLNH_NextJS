@@ -127,7 +127,7 @@ function Header({ handleSearch }) {
       <div className="container">
         <div className="header-top">
           <div className="header-top-left xs-hidden">
-          TRẢ LẠI MIỄN PHÍ. ĐƠN HÀNG GIAO HÀNG TIÊU CHUẨN
+          PHỤC VỤ KHÁCH HÀNG BẰNG CẢ TÂM HUYẾT
           </div>
           <div className="header-top-right  sm-flex-full">
             <div className="header-menu header-label d-flex">
