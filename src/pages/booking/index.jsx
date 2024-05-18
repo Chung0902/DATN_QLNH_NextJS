@@ -5,6 +5,7 @@ import { IoLocationSharp } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import { Button, Modal } from "antd";
 import { useRouter } from "next/router";
+import { FaPlusSquare } from "react-icons/fa";
 
 import styles from "./Order.module.css";
 import HeadMeta from "@/components/HeadMeta";
@@ -13,7 +14,7 @@ import { getTokenFromLocalStorage } from "@/utils/tokenUtils";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
 
-const Checkout = ({ tables }) => {
+const Booking = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
@@ -32,14 +33,10 @@ const Checkout = ({ tables }) => {
   const [sdkReady, setSdkReady] = useState(false);
   const router = useRouter();
 
-  const [tableId, setTableId] = useState("");
-  
+  const { table } = router.query;
+  const selectedTable = table ? JSON.parse(table) : null;
 
-
-  const { products, totalPrice, discount  } = router.query;
-
-
-  const selectedProducts = products ? JSON.parse(products) : [];
+  const { totalPrice, discount } = router.query;
 
   const totalPriceValue = totalPrice ? parseFloat(totalPrice) : 0;
 
@@ -122,9 +119,8 @@ const Checkout = ({ tables }) => {
       (ward) => ward.Id === selectedWard
     );
     // Tạo địa chỉ hoàn chỉnh
-    const completeAddress = `${selectedWardData?.Name || ""}, ${
-      selectedDistrictData?.Name || ""
-    }, ${selectedCityData?.Name || ""}, ${addressDetail || ""}`;
+    const completeAddress = `${selectedWardData?.Name || ""}, ${selectedDistrictData?.Name || ""
+      }, ${selectedCityData?.Name || ""}, ${addressDetail || ""}`;
     // Cập nhật địa chỉ hoàn chỉnh vào state địa chỉ
     setAddress(completeAddress);
   };
@@ -152,7 +148,7 @@ const Checkout = ({ tables }) => {
           paymentType: "CASH",
           status: "WAITING",
           shippingAddress: address,
-          description:description,
+          description: description,
           discount: discount,
           customerId: customerId,
           orderDetails: orderDetails,
@@ -254,26 +250,26 @@ const Checkout = ({ tables }) => {
       try {
         const response = await axiosClient.get(
           "http://localhost:3333/user/orders/payment", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
         );
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = `https://www.paypal.com/sdk/js?client-id=${response.data.data}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true)
-      }
-      document.body.appendChild(script);
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = `https://www.paypal.com/sdk/js?client-id=${response.data.data}`;
+        script.async = true;
+        script.onload = () => {
+          setSdkReady(true)
+        }
+        document.body.appendChild(script);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    if(!window.paypal){
+    if (!window.paypal) {
       fetchData();
-    }else{
+    } else {
       setSdkReady(true);
     }
   }, []);
@@ -291,11 +287,11 @@ const Checkout = ({ tables }) => {
     setIsPaymentShown(!isPaymentShown);
   };
 
- 
+
 
   return (
     <div style={{ backgroundColor: " #f7f7f7" }}>
-      <HeadMeta title="Checkout" />
+      <HeadMeta title="Booking" />
       <Header />
       <main className={`${styles.body} container`}>
         <h1 className={styles.heading}>Chi tiết đơn đặt</h1>
@@ -397,93 +393,60 @@ const Checkout = ({ tables }) => {
           <table className={styles.productList}>
             <tbody>
               <tr>
-                <th style={{ textAlign: "left" }}>Sản phẩm</th>
-                <th>Đơn giá</th>
-                <th>Số lượng</th>
-                <th>Thành tiền</th>
+                <th style={{ textAlign: "left" }}>Tên bàn</th>
+                <th>Số lượng ghế</th>
+                <th>Setup</th>
+                <th>Trạng thái</th>
               </tr>
-              {selectedProducts.map((s) => (
-                <tr key={s._id}>
-                  <td  style={{ display: "flex", alignItems: "center" }}>
-                    <img src={s.photo} alt="" />
-                    <p>{s.name}</p>
+              {selectedTable && (
+                <tr key={selectedTable._id}>
+                  <td style={{ display: "flex", alignItems: "center" }}>
+                    <img src={selectedTable.photo} alt="" />
+                    <p>{selectedTable.name}</p>
                   </td>
-                  <td className={styles.tdPrice}>{(s.discountedPrice ? s.discountedPrice : s.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
-                  <td className={styles.tdQuantity}>x{s.quantity}</td>
-                  <td className={styles.tdTotal}>{(s.discountedPrice ? (s.discountedPrice * s.quantity) : (s.price * s.quantity)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                  <td className={styles.tdPrice}>{selectedTable.numberOfSeats}</td>
+                  <td className={styles.tdQuantity}>{selectedTable.setup}</td>
+                  <td className={styles.tdTotal}>{selectedTable.status}</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
-
-          <div className={styles.comment}>
-            <p>Lời nhắn:</p>
-            <input onChange={(event) => setDescription(event.target.value)} type="text" />
-          </div>
-          <div className={styles.payMethod}>
-            <h3>Bàn đã chọn: </h3>
-            <select 
-            className={styles.select}
-            required
-            onChange={(event) => {
-              setTableId(event.target.value);
-            }}
-          >
-            <option value="">-- Chọn bàn --</option>
-            {
-              tables.map((table) => {
-                if (
-                  (table.status !== "Đã đặt" &&
-                    table.setup === "Có sẵn") ||
-                  (table.status !== "Đã đặt" &&
-                    table.setup === "Không có sẵn")
-                ) {
-                  return (
-                    <option key={table._id} value={table._id}>
-                      {table.name} ---- Số ghế: {table.numberOfSeats}
-                    </option>
-                  );
-                } else {
-                  return null;
-                }
-              })
-            }
-</select>
-
-          </div>
-
-          <div className={styles.totalPriceBefore}>
-            <p>
-              Tổng tiền cho{" "}
-              {selectedProducts.reduce((total, o) => total + o.quantity, 0)} sản
-              phẩm: <span>{totalPriceValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
-            </p>
-          </div>
+        </div>
+        <div className={styles.wrapperProductsOrder}>
+        <table >
+        <button
+          type="button"
+          title="Thêm món ăn"
+          // onClick={handleAddNewItem}
+        >
+          {/* <FaPlusSquare /> CHỌN MÓN ĂN */}CHỌN MÓN ĂN
+        </button>
+        </table>
         </div>
         <div className={styles.wrapperPay}>
           <div className={styles.payMethod}>
             <h3>Phương thức thanh toán:</h3>
             {isPaymentShown ? (
-          <div style={{ display: 'flex' }} className={styles.changePayment}>
-            <div
-              className={`${styles.paymentItem} ${isPayPalActive ? styles.active : ''}`}
-              onClick={handlePayPalClick}
-            >
-              PayPal
-            </div>
-            <div
-              className={`${styles.paymentItem} ${!isPayPalActive ? styles.active : ''}`}
-              onClick={handleCODClick}
-            >
-              Thanh toán khi hoàn thành
-            </div>
-          </div>
-        ) : (
-          <div className={styles.payBefore} style={{ display: 'flex' }}>
-            <p>Thanh toán khi hoàn thành</p>
-            <span onClick={handlePaymentToggle}>Thay đổi</span>
-          </div>
-        )}
+              <div style={{ display: 'flex' }} className={styles.changePayment}>
+                <div
+                  className={`${styles.paymentItem} ${isPayPalActive ? styles.active : ''}`}
+                  onClick={handlePayPalClick}
+                >
+                  PayPal
+                </div>
+                <div
+                  className={`${styles.paymentItem} ${!isPayPalActive ? styles.active : ''}`}
+                  onClick={handleCODClick}
+                >
+                  Thanh toán khi hoàn thành
+                </div>
+              </div>
+            ) : (
+              <div className={styles.payBefore} style={{ display: 'flex' }}>
+                <p>Thanh toán khi hoàn thành</p>
+                <span onClick={handlePaymentToggle}>Thay đổi</span>
+              </div>
+            )}
           </div>
           <div className={styles.totalPriceAfter}>
             <table>
@@ -505,22 +468,22 @@ const Checkout = ({ tables }) => {
           </div>
           <div>
             {isPayPalActive && sdkReady ? (
-               <div className={styles.btnPaypal}>
-               <div style={{ width: "200px" }}>
-                 <PayPalButton          
-                  amount={ Math.round( (totalPriceValue+ 0) / 23678)}
-                  onSuccess={onSuccessPaypal}
-                  onError={() =>{
-                    alert('Error')
-                  }}
-                 />
-               </div>
-             </div>
+              <div className={styles.btnPaypal}>
+                <div style={{ width: "200px" }}>
+                  <PayPalButton
+                    amount={Math.round((totalPriceValue + 0) / 23678)}
+                    onSuccess={onSuccessPaypal}
+                    onError={() => {
+                      alert('Error')
+                    }}
+                  />
+                </div>
+              </div>
             ) : (
               <div className={styles.btn}>
-              <button style={{ width: "200px" }} onClick={handlePayment}>
-                Đặt đơn
-              </button>
+                <button style={{ width: "200px" }} onClick={handlePayment}>
+                  Đặt đơn
+                </button>
               </div>
             )}
           </div>
@@ -531,20 +494,4 @@ const Checkout = ({ tables }) => {
   );
 };
 
-export default Checkout;
-
-export async function getServerSideProps() {
-  try {
-    const response = await axiosClient.get("/user/tables");
-
-    return {
-      props: {
-        tables: response.data.payload,
-      },
-    };
-  } catch (error) {
-    return {
-      notFound: true,
-    };
-  }
-}
+export default Booking;

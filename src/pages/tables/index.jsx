@@ -20,58 +20,8 @@ const Tables = ({ tables }) => {
   const [customerId, setCustomerId] = useState(null);
   const { addToCart, fetchCartData1 } = useCartStore();
   const router = useRouter();
+  
 
-
-  // useEffect(() => {
-  //   // Lấy token từ localStorage
-  //   const token = getTokenFromLocalStorage();
-
-  //   if (token) {
-  //     try {
-  //       // Giải mã token để lấy thông tin customerId
-  //       const decodedToken = jwt_decode(token);
-  //       const { _id: customerId } = decodedToken;
-  //       setCustomerId(customerId);
-  //       fetchCartData1(customerId);
-  //     } catch (error) {
-  //       console.error("Error decoding token:", error);
-  //       setCustomerId(null);
-  //     }
-  //   }
-  // }, []);
-
-// const handleAddToCart = async (_id, stock) => { // Thêm tham số stock vào hàm
-//   const token = getTokenFromLocalStorage();
-//   const productId = _id;
-//   if (stock < 1) { // Kiểm tra nếu stock nhỏ hơn 1
-//     alert("Sản phẩm không còn trong kho. Vui lòng chọn sản phẩm khác.");
-//     return; // Dừng thực hiện hàm nếu stock nhỏ hơn 1
-//   }
-//   if (token) {
-//     try {
-//       const response = await axiosClient.post(
-//         `/user/cart`,
-//         {
-//           customerId,
-//           productId,
-//           quantity: 1,
-//         },
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         }
-//       );
-//       addToCart(productId);
-//       fetchCartData1(customerId)
-
-//     } catch (error) {
-//       console.error("Error checking login:", error);
-//     }
-//   } else {
-//     router.push("/login");
-//   }
-// };
   return (
     <>
       <HeadMeta title="All Tables" />
@@ -96,7 +46,7 @@ const Tables = ({ tables }) => {
           {tables.length > 0 ? (
             <div className="best-seller">
               {tables.map((p) => (
-                <Link key={p._id} href={`/tables/${p._id}`}>
+                <Link key={p._id} href={''}>
                   <TableItem
                     _id = {p._id}
                     photo={p.photo}

@@ -251,7 +251,7 @@ const ProductDetail = (props) => {
               />
               <div>
                 <p>{product.stock == null? 0 : (product.stock)}</p>
-                Sản phẩm có sẵn
+                Phần ăn 
               </div>
             </div>
             <div className={styles.buyNow}>
