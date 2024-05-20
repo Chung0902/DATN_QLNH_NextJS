@@ -33,10 +33,10 @@ const Checkout = ({ tables }) => {
   const router = useRouter();
 
   const [tableId, setTableId] = useState("");
-  
 
 
-  const { products, totalPrice, discount  } = router.query;
+
+  const { products, totalPrice, discount } = router.query;
 
 
   const selectedProducts = products ? JSON.parse(products) : [];
@@ -122,9 +122,8 @@ const Checkout = ({ tables }) => {
       (ward) => ward.Id === selectedWard
     );
     // Tạo địa chỉ hoàn chỉnh
-    const completeAddress = `${selectedWardData?.Name || ""}, ${
-      selectedDistrictData?.Name || ""
-    }, ${selectedCityData?.Name || ""}, ${addressDetail || ""}`;
+    const completeAddress = `${selectedWardData?.Name || ""}, ${selectedDistrictData?.Name || ""
+      }, ${selectedCityData?.Name || ""}, ${addressDetail || ""}`;
     // Cập nhật địa chỉ hoàn chỉnh vào state địa chỉ
     setAddress(completeAddress);
   };
@@ -152,7 +151,7 @@ const Checkout = ({ tables }) => {
           paymentType: "CASH",
           status: "WAITING",
           shippingAddress: address,
-          description:description,
+          description: description,
           discount: discount,
           customerId: customerId,
           orderDetails: orderDetails,
@@ -254,26 +253,26 @@ const Checkout = ({ tables }) => {
       try {
         const response = await axiosClient.get(
           "http://localhost:3333/user/orders/payment", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
         );
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = `https://www.paypal.com/sdk/js?client-id=${response.data.data}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true)
-      }
-      document.body.appendChild(script);
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = `https://www.paypal.com/sdk/js?client-id=${response.data.data}`;
+        script.async = true;
+        script.onload = () => {
+          setSdkReady(true)
+        }
+        document.body.appendChild(script);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    if(!window.paypal){
+    if (!window.paypal) {
       fetchData();
-    }else{
+    } else {
       setSdkReady(true);
     }
   }, []);
@@ -291,7 +290,7 @@ const Checkout = ({ tables }) => {
     setIsPaymentShown(!isPaymentShown);
   };
 
- 
+
 
   return (
     <div style={{ backgroundColor: " #f7f7f7" }}>
@@ -404,7 +403,7 @@ const Checkout = ({ tables }) => {
               </tr>
               {selectedProducts.map((s) => (
                 <tr key={s._id}>
-                  <td  style={{ display: "flex", alignItems: "center" }}>
+                  <td style={{ display: "flex", alignItems: "center" }}>
                     <img src={s.photo} alt="" />
                     <p>{s.name}</p>
                   </td>
@@ -422,33 +421,33 @@ const Checkout = ({ tables }) => {
           </div>
           <div className={styles.payMethod}>
             <h3>Bàn đã chọn: </h3>
-            <select 
-            className={styles.select}
-            required
-            onChange={(event) => {
-              setTableId(event.target.value);
-            }}
-          >
-            <option value="">-- Chọn bàn --</option>
-            {
-              tables.map((table) => {
-                if (
-                  (table.status !== "Đã đặt" &&
-                    table.setup === "Có sẵn") ||
-                  (table.status !== "Đã đặt" &&
-                    table.setup === "Không có sẵn")
-                ) {
-                  return (
-                    <option key={table._id} value={table._id}>
-                      {table.name} ---- Số ghế: {table.numberOfSeats}
-                    </option>
-                  );
-                } else {
-                  return null;
-                }
-              })
-            }
-</select>
+            <select
+              className={styles.select}
+              required
+              onChange={(event) => {
+                setTableId(event.target.value);
+              }}
+            >
+              <option value="">-- Chọn bàn --</option>
+              {
+                tables.map((table) => {
+                  if (
+                    (table.status !== "Đã đặt" &&
+                      table.setup === "Có sẵn") ||
+                    (table.status !== "Đã đặt" &&
+                      table.setup === "Không có sẵn")
+                  ) {
+                    return (
+                      <option key={table._id} value={table._id}>
+                        {table.name} ---- Số ghế: {table.numberOfSeats}
+                      </option>
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              }
+            </select>
 
           </div>
 
@@ -464,26 +463,26 @@ const Checkout = ({ tables }) => {
           <div className={styles.payMethod}>
             <h3>Phương thức thanh toán:</h3>
             {isPaymentShown ? (
-          <div style={{ display: 'flex' }} className={styles.changePayment}>
-            <div
-              className={`${styles.paymentItem} ${isPayPalActive ? styles.active : ''}`}
-              onClick={handlePayPalClick}
-            >
-              PayPal
-            </div>
-            <div
-              className={`${styles.paymentItem} ${!isPayPalActive ? styles.active : ''}`}
-              onClick={handleCODClick}
-            >
-              Thanh toán khi hoàn thành
-            </div>
-          </div>
-        ) : (
-          <div className={styles.payBefore} style={{ display: 'flex' }}>
-            <p>Thanh toán khi hoàn thành</p>
-            <span onClick={handlePaymentToggle}>Thay đổi</span>
-          </div>
-        )}
+              <div style={{ display: 'flex' }} className={styles.changePayment}>
+                <div
+                  className={`${styles.paymentItem} ${isPayPalActive ? styles.active : ''}`}
+                  onClick={handlePayPalClick}
+                >
+                  PayPal
+                </div>
+                <div
+                  className={`${styles.paymentItem} ${!isPayPalActive ? styles.active : ''}`}
+                  onClick={handleCODClick}
+                >
+                  Thanh toán khi hoàn thành
+                </div>
+              </div>
+            ) : (
+              <div className={styles.payBefore} style={{ display: 'flex' }}>
+                <p>Thanh toán khi hoàn thành</p>
+                <span onClick={handlePaymentToggle}>Thay đổi</span>
+              </div>
+            )}
           </div>
           <div className={styles.totalPriceAfter}>
             <table>
@@ -505,22 +504,22 @@ const Checkout = ({ tables }) => {
           </div>
           <div>
             {isPayPalActive && sdkReady ? (
-               <div className={styles.btnPaypal}>
-               <div style={{ width: "200px" }}>
-                 <PayPalButton          
-                  amount={ Math.round( (totalPriceValue+ 0) / 23678)}
-                  onSuccess={onSuccessPaypal}
-                  onError={() =>{
-                    alert('Error')
-                  }}
-                 />
-               </div>
-             </div>
+              <div className={styles.btnPaypal}>
+                <div style={{ width: "200px" }}>
+                  <PayPalButton
+                    amount={Math.round((totalPriceValue + 0) / 23678)}
+                    onSuccess={onSuccessPaypal}
+                    onError={() => {
+                      alert('Error')
+                    }}
+                  />
+                </div>
+              </div>
             ) : (
               <div className={styles.btn}>
-              <button style={{ width: "200px" }} onClick={handlePayment}>
-                Đặt đơn
-              </button>
+                <button style={{ width: "200px" }} onClick={handlePayment}>
+                  Đặt đơn
+                </button>
               </div>
             )}
           </div>

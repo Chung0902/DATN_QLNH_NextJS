@@ -14,6 +14,8 @@ import { getTokenFromLocalStorage } from "@/utils/tokenUtils";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
 
+
+
 const Booking = ({products}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cities, setCities] = useState([]);
@@ -32,6 +34,11 @@ const Booking = ({products}) => {
   const [isPayPalActive, setIsPayPalActive] = useState(false);
   const [sdkReady, setSdkReady] = useState(false);
   const router = useRouter();
+  const [productId, setProductId] = useState("");
+
+  const [showNewRow, setShowNewRow] = useState(false);
+  const [newRows, setNewRows] = useState([]);
+  
 
   const { table } = router.query;
   const selectedTable = table ? JSON.parse(table) : null;
@@ -42,8 +49,73 @@ const Booking = ({products}) => {
 
   const [showTable, setShowTable] = useState(false);
 
+
+   // Hàm xử lý thay đổi khi chọn sản phẩm hoặc thay đổi số lượng
+   const handleNewRowChange = (e, index, field) => {
+    const { value } = e.target;
+
+    if (field === "productId") {
+      const product = products.find((product) => product._id === value);
+      if (product) {
+        setNewRows((prevRows) => {
+          const updatedRows = [...prevRows];
+          updatedRows[index] = {
+            ...updatedRows[index],
+            [field]: value,
+            productPrice: product.price,
+            productDiscount: product.discount,
+            productStock: product.stock, // Thêm thuộc tính `productStock`
+            quantity: 1, // Đặt số lượng mặc định là 1 khi chọn sản phẩm
+            totalOrderDetailPrice:
+              product.price * 1 * (1 - product.discount / 100),
+          };
+          return updatedRows;
+        });
+      }
+    } else if (field === "quantity") {
+      const parsedValue = parseInt(value, 10);
+      setNewRows((prevRows) => {
+        const updatedRows = [...prevRows];
+        const currentRow = updatedRows[index];
+        const product = products.find(
+          (product) => product._id === currentRow.productId
+        );
+
+        if (product) {
+          const newQuantity = Math.max(1, Math.min(parsedValue, product.stock));
+          updatedRows[index] = {
+            ...currentRow,
+            [field]: newQuantity,
+            totalOrderDetailPrice:
+              currentRow.productPrice *
+              newQuantity *
+              (1 - currentRow.productDiscount / 100), // Cập nhật tổng tiền khi số lượng thay đổi
+          };
+        }
+        return updatedRows;
+      });
+    }
+  };
+  
+
+  const handleDeleteNewRow = (index) => {
+    setNewRows((prevRows) => {
+      const updatedRows = [...prevRows];
+      updatedRows.splice(index, 1);
+      return updatedRows;
+    });
+  };
+
   const handleAddNewItem = () => {
     setShowTable(true);
+    const newRow = {
+      productId: "",
+      quantity: 1, // Đặt số lượng mặc định là 1 khi thêm hàng mới
+      productPrice: "",
+      productDiscount: "",
+      totalOrderDetailPrice: "",
+    };
+    setNewRows((prevRows) => [...prevRows, newRow]);
   };
 
   useEffect(() => {
@@ -429,29 +501,61 @@ const Booking = ({products}) => {
     </button>
   </table>
   {showTable && (
-    <div className={styles.table}>
-    <table>
-    <thead>
-      <tr>
-        <th>Sản phẩm</th>
-        <th>Số lượng</th>
-        <th>Giá</th>
-        <th>Giảm giá</th>
-        <th>Tổng tiền</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          
-        </td>
-        <td><input type="number" value="2" /></td>
-        <td><input type="text" value="250000" /></td>
-        <td>500000.00</td>
-        <td>10</td>
-        <td><button>X</button></td>
-      </tr>
+              <div>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Sản phẩm</th>
+                      <th>Số lượng</th>
+                      <th>Giá</th>
+                      <th>Giảm giá</th>
+                      <th>Tổng tiền</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {newRows.map((row, index) => (
+                      <tr key={index}>
+                        <td>
+                          <select
+                            value={row.productId}
+                            onChange={(e) =>
+                              handleNewRowChange(e, index, "productId")
+                            }
+                          >
+                            <option value="">Chọn sản phẩm</option>
+                            {products.map((product) => (
+                              <option key={product._id} value={product._id}>
+                                {product.name}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            value={row.quantity}
+                            onChange={(e) =>
+                              handleNewRowChange(e, index, "quantity")
+                            }
+                            min="1"
+                            max={row.productStock} // Giới hạn số lượng tối đa
+                          />
+                        </td>
+                        <td>{row.productPrice}</td>
+                        <td>{row.productDiscount}%</td>
+                       
+                        <td>{row.totalOrderDetailPrice}</td>
+                        <td>
+                          <button
+                            onClick={() => handleDeleteNewRow(index)}
+                            className={styles.deleteButton}
+                          >
+                            Xóa
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
     </tbody>
   </table>
   </div>
