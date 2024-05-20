@@ -318,37 +318,6 @@ const handleDecreaseQuantity = async (productId, id) => {
               <div className="col text-right">{totalPrice2.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</div>
             </div>
             <form className={styles.form}>
-              {/* <p>Chọn bàn ăn</p>
-              <select 
-                className={styles.select}
-                required
-                onChange={(event) => {
-                  setTableId(event.target.value);
-                }}
-              >
-                <option value="">-- Chọn bàn --</option>
-                {
-                  tables.map((table) => {
-                    if (
-                      (table.status !== "Đã đặt" &&
-                        table.setup === "Có sẵn") ||
-                      (table.status !== "Đã đặt" &&
-                        table.setup === "Không có sẵn")
-                    ) {
-                      return (
-                        <option key={table._id} value={table._id}>
-                          {table.name}
-                        </option>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
-              </select> */}
-              {/* <select className={styles.select}>
-                <option className="text-muted">Nhân viên A</option>
-                <option className="text-muted">Nhân viên B</option>
-              </select> */}
               <p>Mã giảm giá</p>
               <input
                 className={styles.input}
@@ -379,19 +348,5 @@ const handleDecreaseQuantity = async (productId, id) => {
 
 export default Cart;
 
-// export async function getServerSideProps() {
-//   try {
-//     const response = await axiosClient.get("/user/tables");
 
-//     return {
-//       props: {
-//         tables: response.data.payload,
-//       },
-//     };
-//   } catch (error) {
-//     return {
-//       notFound: true,
-//     };
-//   }
-// }
 

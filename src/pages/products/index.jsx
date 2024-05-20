@@ -82,7 +82,7 @@ const handleAddToCart = async (_id, stock) => { // Thêm tham số stock vào h�
       className="container"
         items={[
           {
-            title: <Link href={`/`}>HomePage</Link> ,
+            title: <Link href={`/`}>Trang chủ</Link> ,
           },
           {
             title: "Products"

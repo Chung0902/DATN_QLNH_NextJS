@@ -255,7 +255,7 @@ const ProductCategory = () => {
         className="container"
         items={[
           {
-            title: <Link href={`/`}>HomePage</Link>,
+            title: <Link href={`/`}>Trang chủ</Link>,
           },
           {
             title: "Danh mục",

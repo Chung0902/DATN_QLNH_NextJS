@@ -14,7 +14,7 @@ import { getTokenFromLocalStorage } from "@/utils/tokenUtils";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
 
-const Booking = () => {
+const Booking = ({products}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
@@ -39,6 +39,12 @@ const Booking = () => {
   const { totalPrice, discount } = router.query;
 
   const totalPriceValue = totalPrice ? parseFloat(totalPrice) : 0;
+
+  const [showTable, setShowTable] = useState(false);
+
+  const handleAddNewItem = () => {
+    setShowTable(true);
+  };
 
   useEffect(() => {
     const token = getTokenFromLocalStorage();
@@ -413,16 +419,44 @@ const Booking = () => {
           </table>
         </div>
         <div className={styles.wrapperProductsOrder}>
-        <table >
-        <button
-          type="button"
-          title="Thêm món ăn"
-          // onClick={handleAddNewItem}
-        >
-          {/* <FaPlusSquare /> CHỌN MÓN ĂN */}CHỌN MÓN ĂN
-        </button>
-        </table>
-        </div>
+  <table>
+    <button
+      type="button"
+      title="Thêm món ăn"
+      onClick={handleAddNewItem}
+    >
+      CHỌN MÓN ĂN
+    </button>
+  </table>
+  {showTable && (
+    <div className={styles.table}>
+    <table>
+    <thead>
+      <tr>
+        <th>Sản phẩm</th>
+        <th>Số lượng</th>
+        <th>Giá</th>
+        <th>Giảm giá</th>
+        <th>Tổng tiền</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          
+        </td>
+        <td><input type="number" value="2" /></td>
+        <td><input type="text" value="250000" /></td>
+        <td>500000.00</td>
+        <td>10</td>
+        <td><button>X</button></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  )}
+</div>
         <div className={styles.wrapperPay}>
           <div className={styles.payMethod}>
             <h3>Phương thức thanh toán:</h3>
@@ -495,3 +529,19 @@ const Booking = () => {
 };
 
 export default Booking;
+
+export async function getServerSideProps() {
+  try {
+    const response = await axiosClient.get("/user/products");
+
+    return {
+      props: {
+        products: response.data.payload,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+}
