@@ -36,6 +36,7 @@ const Booking = ({products}) => {
   const router = useRouter();
   const [productId, setProductId] = useState("");
 
+
   const [showNewRow, setShowNewRow] = useState(false);
   const [newRows, setNewRows] = useState([]);
   
@@ -214,62 +215,68 @@ const Booking = ({products}) => {
     setIsModalOpen(false);
   };
 
+  async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+      await callback(array[index], index, array);
+    }
+  }
+
 
   // Xử lý khi nhấn nút "Thanh toán"
   const handlePayment = async () => {
-    const token = getTokenFromLocalStorage();
-    if (token) {
-      try {
-        const orderDetails = selectedProducts.map((product) => ({
-          productId: product._id,
-          quantity: product.quantity,
-          price: product.price,
+    try {
+      const token = getTokenFromLocalStorage();
+      if (token && selectedTable) { // Kiểm tra selectedTable tồn tại
+        const orderDetails = newRows.map((row) => ({
+          productId: row.productId,
+          quantity: row.quantity,
+          price: row.productPrice,
         }));
+  
         const orderData = {
-          createdDate: new Date().toISOString(), // Ngày tạo đơn hàng là ngày hiện tại
+          createdDate: new Date().toISOString(),
           paymentType: "CASH",
           status: "WAITING",
           shippingAddress: address,
-          description: description,
-          discount: discount,
+          discount: discountValue,
           customerId: customerId,
           orderDetails: orderDetails,
-          tableId: tableId,
+          tableId: selectedTable._id,
           isDelete: false,
         };
-
-        // Đưa headers vào trong object headers
+  
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-
+  
         const response = await axiosClient.post("/user/orders", orderData, {
           headers,
         });
-
+  
         console.log("Đơn hàng đã được tạo:", response.data);
-
+  
         // Cập nhật stock sau khi thanh toán thành công
-        for (const product of selectedProducts) {
-          const newStock = product.stock - product.quantity;
-
-          // Gửi yêu cầu cập nhật stock lên server
-          await axiosClient.patch(`/user/products/${product._id}`, {
-            stock: newStock,
-          });
-
-          // Nếu cần, bạn có thể thực hiện xử lý báo cáo, ghi log hoặc thông báo về việc cập nhật stock thành công
-          console.log(
-            `Đã cập nhật stock của sản phẩm ${product._id} thành công!`
-          );
+        for (const row of newRows) {
+          const product = products.find((p) => p._id === row.productId);
+          if (product) {
+            const newStock = product.stock - row.quantity;
+            await axiosClient.patch(`/user/products/${product._id}`, {
+              stock: newStock,
+            });
+            console.log(`Đã cập nhật stock của sản phẩm ${product._id} thành công!`);
+          }
         }
-
+  
         router.push("/checkoutSuccess");
-      } catch (error) {
-        alert("Lỗi!!!Tạo đơn hàng thất bại", error);
+      } else {
+        console.error("Selected table is not available!");
+        // Thêm xử lý thông báo hoặc hành động phù hợp khi selectedTable không tồn tại
       }
+    } catch (error) {
+      alert("Lỗi!!! Tạo đơn hàng thất bại", error);
     }
   };
+  
 
   const onSuccessPaypal = async (details, data) => {
     const token = getTokenFromLocalStorage();
