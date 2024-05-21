@@ -49,6 +49,14 @@ const Booking = ({products}) => {
 
   const [showTable, setShowTable] = useState(false);
 
+  const [discountValue, setDiscountValue] = useState(0);
+
+  const totalProductPrice = newRows.reduce((total, row) => {
+    return total + row.totalOrderDetailPrice;
+  }, 0);
+
+  const totalPayment = totalProductPrice * (1 - discountValue / 100);
+
 
    // Hàm xử lý thay đổi khi chọn sản phẩm hoặc thay đổi số lượng
    const handleNewRowChange = (e, index, field) => {
@@ -206,10 +214,6 @@ const Booking = ({products}) => {
     setIsModalOpen(false);
   };
 
-  // Hàm để xóa sản phẩm khỏi giỏ hàng
-  const clearCart = () => {
-    localStorage.removeItem("cartItems");
-  };
 
   // Xử lý khi nhấn nút "Thanh toán"
   const handlePayment = async () => {
@@ -259,8 +263,6 @@ const Booking = ({products}) => {
             `Đã cập nhật stock của sản phẩm ${product._id} thành công!`
           );
         }
-
-        clearCart(); // Gọi một hàm để xóa giỏ hàng
 
         router.push("/checkoutSuccess");
       } catch (error) {
@@ -496,71 +498,72 @@ const Booking = ({products}) => {
       type="button"
       title="Thêm món ăn"
       onClick={handleAddNewItem}
+      className={styles.addproduct}
     >
       CHỌN MÓN ĂN
     </button>
   </table>
   {showTable && (
-              <div>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>Sản phẩm</th>
-                      <th>Số lượng</th>
-                      <th>Giá</th>
-                      <th>Giảm giá</th>
-                      <th>Tổng tiền</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {newRows.map((row, index) => (
-                      <tr key={index}>
-                        <td>
-                          <select
-                            value={row.productId}
-                            onChange={(e) =>
-                              handleNewRowChange(e, index, "productId")
-                            }
-                          >
-                            <option value="">Chọn sản phẩm</option>
-                            {products.map((product) => (
-                              <option key={product._id} value={product._id}>
-                                {product.name}
-                              </option>
-                            ))}
-                          </select>
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            value={row.quantity}
-                            onChange={(e) =>
-                              handleNewRowChange(e, index, "quantity")
-                            }
-                            min="1"
-                            max={row.productStock} // Giới hạn số lượng tối đa
-                          />
-                        </td>
-                        <td>{row.productPrice}</td>
-                        <td>{row.productDiscount}%</td>
-                       
-                        <td>{row.totalOrderDetailPrice}</td>
-                        <td>
-                          <button
-                            onClick={() => handleDeleteNewRow(index)}
-                            className={styles.deleteButton}
-                          >
-                            Xóa
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-    </tbody>
-  </table>
-  </div>
-  )}
-</div>
+    <div>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+            <th>Giảm giá</th>
+            <th>Tổng tiền</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {newRows.map((row, index) => (
+            <tr key={index}>
+              <td>
+                <select
+                  value={row.productId}
+                  onChange={(e) =>
+                    handleNewRowChange(e, index, "productId")
+                  }
+                >
+                  <option value="">Chọn sản phẩm</option>
+                  {products.map((product) => (
+                    <option key={product._id} value={product._id}>
+                      {product.name}
+                    </option>
+                  ))}
+                </select>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value={row.quantity}
+                  onChange={(e) =>
+                    handleNewRowChange(e, index, "quantity")
+                  }
+                  min="1"
+                  max={row.productStock} // Giới hạn số lượng tối đa
+                />
+              </td>
+              <td>{row.productPrice}</td>
+              <td>{row.productDiscount}%</td>
+              
+              <td>{row.totalOrderDetailPrice}</td>
+              <td>
+                <button
+                  onClick={() => handleDeleteNewRow(index)}
+                  className={styles.deleteButton}
+                >
+                  Xóa
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+      )}
+    </div>
         <div className={styles.wrapperPay}>
           <div className={styles.payMethod}>
             <h3>Phương thức thanh toán:</h3>
@@ -590,16 +593,23 @@ const Booking = ({products}) => {
             <table>
               <tbody>
                 <tr>
-                  <td>Tổng tiền hàng:</td>
-                  <td>{totalPriceValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                  <td>Tổng tiền:</td>
+                  <td>{totalProductPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                 </tr>
-                {/* <tr>
-                  <td>Phí vận chuyển:</td>
-                  <td>{(11000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
-                </tr> */}
+                <tr>
+                  <td>Mã giảm giá:</td>
+                  <td>
+                  <input
+                    type="text"
+                    placeholder="Nhập mã giảm giá"
+                    value={discountValue}
+                    onChange={(e) => setDiscountValue(e.target.value)}
+                  />
+                  </td>
+                </tr>
                 <tr>
                   <td>Tổng thanh toán:</td>
-                  <td className={styles.td}>{(totalPriceValue + 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                  <td className={styles.td}>{totalPayment.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                 </tr>
               </tbody>
             </table>
