@@ -535,9 +535,11 @@ const Booking = ({products}) => {
                 >
                   <option value="">Chọn sản phẩm</option>
                   {products.map((product) => (
-                    <option key={product._id} value={product._id}>
-                      {product.name}
-                    </option>
+                    product.stock > 0 && (
+                      <option key={product._id} value={product._id}>
+                        {product.name}
+                      </option>
+                    )
                   ))}
                 </select>
               </td>
