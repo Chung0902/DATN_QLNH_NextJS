@@ -22,9 +22,9 @@ function Main({ suppliers }) {
                             <span>Không có nhà cung cấp nào</span>
                         )}
 
-                        <div className="btn btn-sale">Huge Sale -
+                        <div className="btn btn-sale">Giảm giá đến - 
                             <strong>70%</strong>
-                            Off</div>
+                        </div>
                     </aside>
                     <div className="banner-main">
                         <div className="owl-carousel owl-theme">
