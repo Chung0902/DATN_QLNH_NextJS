@@ -11,6 +11,7 @@ import axiosClient from '@/libraries/axiosClient';
 import FlashSale from '@/components/FlashSale'
 import BestSeller from '@/components/BestSeller'
 import ProductList from '@/components/ProductList'
+import TableList from '@/components/TableList'
 import Elementor from '@/components/Elementor'
 import VideoNewProducts from '@/components/VideoNewProducts'
 import Banner from '@/components/Banner'
@@ -28,6 +29,7 @@ export default function Home({categories,flashsale,bestseller,suppliers}) {
     <Banner/>
     <Header/>
     <Main suppliers={suppliers}/>
+    <TableList/>
     <Elementor/>
     <Categories categories={categories}/>
     <FlashSale flashsale={flashsale}/>

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { BsFillCartPlusFill } from "react-icons/bs";
 import { useRouter } from "next/router";
-import { Spin } from "antd";
 
 const TableItem = (props) => {
   const router = useRouter();
@@ -13,7 +11,7 @@ const TableItem = (props) => {
       router.push({
         pathname: '/booking',
         query: {
-          table: JSON.stringify({ // Chuyển đổi đối tượng thành chuỗi JSON
+          table: JSON.stringify({ 
             _id,
             photo,
             name,

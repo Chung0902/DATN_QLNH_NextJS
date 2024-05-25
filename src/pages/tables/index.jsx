@@ -54,7 +54,6 @@ const Tables = ({ tables }) => {
                     numberOfSeats={p.numberOfSeats}
                     setup={p.setup}
                     status={p.status}
-                    // handleAddToCart={() => handleAddToCart(p._id, p.stock)} 
                   />
                 </Link>
               ))}
@@ -71,7 +70,6 @@ const Tables = ({ tables }) => {
 
 export default Tables;
 
-// getServerSideProps - Server-Side Rendering
 export async function getServerSideProps() {
   try {
     const response = await axiosClient.get("/user/tables");
