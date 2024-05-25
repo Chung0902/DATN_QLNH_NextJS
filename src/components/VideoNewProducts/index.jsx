@@ -7,12 +7,12 @@ const VideoNewProducts = () => {
       <h3 className={styles.h3}>Món ăn sắp ra mắt</h3>
       <iframe
         className={styles.iframe}
-        style={{paddingTop:"30px"}}
+        style={{ paddingTop: "30px" }}
         width="100%"
         height="600px"
-        src="https://www.youtube.com/embed/4JpkM-YS3q8"
+        src="https://www.youtube.com/embed/0Eb0t2NEOxs"
         title="YouTube video player"
-        frameBorder ="0"
+        frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       ></iframe>
