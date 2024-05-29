@@ -211,6 +211,7 @@ const Checkout = ({ tables }) => {
           discount: discount,
           customerId: customerId,
           orderDetails: orderDetails,
+          tableId: tableId,
           isDelete: false,
         };
 
