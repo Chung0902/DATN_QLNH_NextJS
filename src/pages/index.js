@@ -16,7 +16,7 @@ import Elementor from '@/components/Elementor'
 import VideoNewProducts from '@/components/VideoNewProducts'
 import Banner from '@/components/Banner'
 import ChatOnline from '@/components/ChatOnline'
-import ScrollToTop from 'react-scroll-to-top';
+// import ScrollToTop from 'react-scroll-to-top';
 
 
 
@@ -39,7 +39,7 @@ export default function Home({categories,flashsale,bestseller,suppliers}) {
     {/* <ChatOnline/> */}
     
     <Footer/>
-    <ScrollToTop smooth color="#ffffff" style={{ backgroundColor: '#0088cc' }} />
+    {/* <ScrollToTop smooth color="#ffffff" style={{ backgroundColor: '#0088cc' }} /> */}
 
     </>
   )
