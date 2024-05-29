@@ -4,8 +4,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/:path*',
-        destination: '/', // If this is correct for your use case
+        source: '/(.*)',
+        destination: '/',
       },
     ];
   },
