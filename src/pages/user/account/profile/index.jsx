@@ -266,7 +266,7 @@ const Profile = () => {
               <div className={styles.wrapperUpload}>
                 <img
                   id="avatarImg"
-                  src={ `http://localhost:3333/${profile.avatarUrl}`}
+                  src={ `https://datn-qlnh-nodejs.onrender.com/${profile.avatarUrl}`}
                   alt="avatar"
                 />
                 <input

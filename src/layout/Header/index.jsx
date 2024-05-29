@@ -140,7 +140,7 @@ function Header({ handleSearch }) {
                 <li className="has-dropdown">
                   <img
                     className="avatar"
-                    src={`http://localhost:3333/${avatar}`}
+                    src={`https://datn-qlnh-nodejs.onrender.com/${avatar}`}
                     alt="Avatar"
                   />
                   <ul className="sub-menu">

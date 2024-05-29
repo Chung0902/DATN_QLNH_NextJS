@@ -11,7 +11,7 @@ const ChatOnline = () => {
   const [isChatVisible, setIsChatVisible] = useState(false);
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
-  const socket = useMemo(() => io("http://localhost:3333/"), []);
+  const socket = useMemo(() => io("https://datn-qlnh-nodejs.onrender.com/"), []);
   const [receiverId, setReceiverId] = useState("647efdae66502ca93f65d13d");
 
   console.log('««««« messages »»»»»', messages);

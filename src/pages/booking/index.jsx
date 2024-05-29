@@ -336,7 +336,7 @@ const Booking = ({products}) => {
     const fetchData = async () => {
       try {
         const response = await axiosClient.get(
-          "http://localhost:3333/user/orders/payment", {
+          "https://datn-qlnh-nodejs.onrender.com/user/orders/payment", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
