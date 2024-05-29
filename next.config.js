@@ -1,17 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-}
-
-module.exports = nextConfig
-
-module.exports = {
   async rewrites() {
     return [
       {
-        source: "/:path*",
-        destination: "/"
-      }
-    ]
-  }
-}
+        source: '/:path*',
+        destination: '/', // If this is correct for your use case
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;
