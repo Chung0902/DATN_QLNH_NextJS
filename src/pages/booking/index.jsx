@@ -295,6 +295,7 @@ const Booking = ({products}) => {
           discount: discount,
           customerId: customerId,
           orderDetails: orderDetails,
+          tableId: selectedTable._id,
           isDelete: false,
         };
 

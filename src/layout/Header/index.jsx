@@ -106,7 +106,9 @@ function Header({ handleSearch }) {
   const handleLogout = () => {
     if (isLoggedIn) {
       removeTokenFromLocalStorage();
-      router.push("/");
+      setIsLoggedIn(false);
+      setIsLoginSuccess(false);
+      router.replace("/"); // Hoặc sử dụng window.location.reload()
     }
   };
   
