@@ -182,12 +182,12 @@ const App = () => {
                         icon: <FaMoneyBill1Wave />,
                       },
                       {
-                        title: "Đang giao hàng",
+                        title: "Đang tiến hành thực hiện món",
                         status: completedIndex >= 2 ? "finish" : "",
                         icon: <BsFillCarFrontFill />,
                       },
                       {
-                        title: "Giao thành công",
+                        title: "Hoàn thành",
                         status: completedIndex >= 3 ? "finish" : "",
                         icon: <SmileOutlined />,
                       },
