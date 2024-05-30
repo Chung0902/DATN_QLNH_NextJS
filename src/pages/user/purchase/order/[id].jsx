@@ -299,7 +299,7 @@ const App = () => {
                                     o.price *
                                       o.quantity *
                                       (1 - p.discount / 100),
-                               
+                                    0
                                 )
                                 .toLocaleString("vi-VN", {
                                   style: "currency",
