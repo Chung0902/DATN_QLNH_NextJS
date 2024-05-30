@@ -36,7 +36,7 @@ export default function Home({categories,flashsale,bestseller,suppliers}) {
     <BestSeller bestseller={bestseller}/>
     <ProductList/>
     <VideoNewProducts/>
-    {/* <ChatOnline/> */}
+    <ChatOnline/>
     
     <Footer/>
     {/* <ScrollToTop smooth color="#ffffff" style={{ backgroundColor: '#0088cc' }} /> */}
