@@ -220,7 +220,7 @@ const App = () => {
               {filteredOrder.map((p) => (
                 <div key={p._id}>
                   <div className={styles.addressOrderDetail}>
-                    <h3>Địa chỉ nhận hàng</h3>
+                    <h3>Địa chỉ</h3>
                     <h4>{fullName}</h4>
                     <p>{phoneNumber}</p>
                     <p>{p.shippingAddress}</p>
@@ -279,13 +279,13 @@ const App = () => {
                           </td>
                         </tr>
                         <tr>
-                          <td>Phí vận chuyển:</td>
+                          {/* <td>Phí vận chuyển:</td>
                           <td>
                             {(11000).toLocaleString("vi-VN", {
                               style: "currency",
                               currency: "VND",
                             })}
-                          </td>
+                          </td> */}
                         </tr>
                         <tr>
                           <td>Tổng thanh toán:</td>
@@ -299,7 +299,7 @@ const App = () => {
                                     o.price *
                                       o.quantity *
                                       (1 - p.discount / 100),
-                                  11000
+                               
                                 )
                                 .toLocaleString("vi-VN", {
                                   style: "currency",
