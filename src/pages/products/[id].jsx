@@ -31,6 +31,7 @@ const ProductDetail = (props) => {
   const { addToCart, fetchCartData1 } = useCartStore();
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -125,6 +126,20 @@ const ProductDetail = (props) => {
     checkLoggedIn();
   }, []);
 
+  // Gọi API lấy danh sách đánh giá
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axiosClient.get(`/questions/pipeline/${product._id}`);
+        setReviews(response.data.payload.reviews);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    fetchReviews();
+  }, [product._id]);
+
 
   const handleQuantityChange = (event) => {
     setQuantity(event.target.value);
@@ -196,7 +211,7 @@ const ProductDetail = (props) => {
             title: <Link href={`/`}>Trang chủ</Link> ,
           },
           {
-            title: <Link href={`/products`}>Products</Link>,
+            title: <Link href={`/products`}>Món ăn</Link>,
           },
           {
             title: `${product.name}`,
@@ -280,10 +295,31 @@ const ProductDetail = (props) => {
           </div>
         </div>
       )}
-      <section style={{ paddingBottom: "100px",marginTop:"100px" }} id="sellers">
+      <section style={{ paddingBottom: "100px", marginTop: "50px" }} id="reviews">
+        <div className="reviews container">
+          <span className="abc">
+            <h3 className={styles.h3}>Đánh giá món ăn</h3>
+          </span>
+          {reviews.length > 0 ? (
+            <div className="reviews-list">
+              {reviews.map((review, index) => (
+                <div key={index} className={styles.reviewItem}>
+                  <p><strong>{review.customerName}</strong></p>
+                  <img src={review.customerAvatar} alt={`${review.customerName}'s avatar`} className={styles.customerAvatar}/>
+                  <p>{review.comment}</p>
+                  <p>Rating: {review.rating}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <small>Chưa có đánh giá nào cho món ăn này</small>
+          )}
+        </div>
+      </section>
+      <section style={{ paddingBottom: "100px",marginTop:"50px" }} id="sellers">
         <div className="seller container">
           <span className="abc">
-            <h3 className={styles.h3}>Sản phẩm tương tự</h3>
+            <h3 className={styles.h3}>MÓn ăn tương tự</h3>
           </span>
           {searchResults.length > 0 ? (
             <div className="best-seller">
@@ -306,7 +342,7 @@ const ProductDetail = (props) => {
               })}
             </div>
           ) : (
-            <small>Không có sản phẩm tương tự</small>
+            <small>Không có món ăn tương tự</small>
           )}
         </div>
       </section>
