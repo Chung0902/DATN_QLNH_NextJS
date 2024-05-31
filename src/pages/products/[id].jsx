@@ -231,6 +231,7 @@ const ProductDetail = (props) => {
             productId: product._id,
             rating: selectedRating,
             comment: comment,
+            customerId: customerId,
           },
           {
             headers: {
@@ -239,7 +240,11 @@ const ProductDetail = (props) => {
           }
         );
         if (response.data.success) {
-          setReviews([...reviews, response.data.payload]);
+          // Thêm bình luận mới vào danh sách hiện tại
+          const newReview = response.data.payload;
+          setReviews([...reviews, newReview]);
+
+          // Xóa nội dung bình luận và đặt lại số sao đã chọn
           setSelectedRating(0);
           setComment("");
         }
@@ -420,7 +425,7 @@ const ProductDetail = (props) => {
               className={styles.textarea}
               onChange={(e) => setComment(e.target.value)}
             />
-            <div>
+            <div  className={styles.button}>
               <button onClick={handleAddReview}>Gửi đánh giá</button>
             </div>
         

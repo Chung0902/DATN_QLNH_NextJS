@@ -232,16 +232,27 @@
     cursor: pointer;
   }
   
+  .rating {
+    display: flex;
+    gap: 5px; /* Khoảng cách giữa các ngôi sao */
+  }
+  
   .rating span {
     cursor: pointer;
-    font-size: 20px;
+    font-size: 25px; /* Tăng kích thước ngôi sao nếu cần */
     color: gray;
+    transition: color 0.2s;
+  }
+  
+  .rating .selectedStar {
+    color: gold;
   }
   
   .rating span:hover,
   .rating span:hover ~ span {
     color: gold;
   }
+  
 
   .textarea {
     width: 100%;
@@ -251,6 +262,10 @@
 
   .addReview {
     margin-top: 50px;
+  }
+
+  .button {
+    margin-bottom: -80px
   }
 
 
