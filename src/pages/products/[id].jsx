@@ -206,6 +206,11 @@ const ProductDetail = (props) => {
   const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+  
   
   
   return (
@@ -335,18 +340,26 @@ const ProductDetail = (props) => {
             <p>Chưa có đánh giá nào.</p>
           )}
           <div className={styles.pagination}>
-            {Array.from({ length: Math.ceil(reviews.length / reviewsPerPage) }).map(
-              (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => paginate(index + 1)}
-                  className={currentPage === index + 1 ? styles.active : ""}
-                >
-                  {index + 1}
-                </button>
-              )
-            )}
+            <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+              {"<"}
+            </button>
+            {Array.from({ length: Math.ceil(reviews.length / reviewsPerPage) }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={currentPage === index + 1 ? styles.active : ""}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === Math.ceil(reviews.length / reviewsPerPage)}
+            >
+              {">"}
+            </button>
           </div>
+
         </div>
       </section>
 
