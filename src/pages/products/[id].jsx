@@ -32,6 +32,9 @@ const ProductDetail = (props) => {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const [reviews, setReviews] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 5;
+  
 
   useEffect(() => {
     const handleResize = () => {
@@ -197,6 +200,12 @@ const ProductDetail = (props) => {
       router.push("/login"); // Chuyển hướng đến trang đăng nhập
     }
   };
+
+  const indexOfLastReview = currentPage * reviewsPerPage;
+  const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
+  const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   
   
   return (
@@ -295,32 +304,53 @@ const ProductDetail = (props) => {
           </div>
         </div>
       )}
-      <section style={{ paddingBottom: "100px", marginTop: "50px" }} id="reviews">
-      <div className="seller container">
-      <span className="abc">
-            <h3 className={styles.h3}>MÓn ăn tương tự</h3>
+      <section style={{ paddingBottom: "80px", marginTop: "50px" }} id="reviews">
+        <div className="seller container">
+          <span className="abc">
+            <h3 className={styles.h3}>Đánh giá món ăn</h3>
           </span>
-        {reviews.length > 0 ? (
-          <div className={styles.reviewsList}>
-            {reviews.map((review, index) => (
-              <div key={index} className={styles.reviewItem}>
-                <div className={styles.reviewHeader}>
-                  <img src={review.customerAvatar} alt={review.customerName} className={styles.avatar} />
-                  <div>
-                    <div className={styles.customerName}>{review.customerName}</div>
-                    <div className={styles.rating}>{"★".repeat(review.rating)}</div>
+          {currentReviews.length > 0 ? (
+            <div className={styles.reviewsList}>
+              {currentReviews.map((review, index) => (
+                <div key={index} className={styles.reviewItem}>
+                  <div className={styles.reviewHeader}>
+                    <img
+                      src={review.customerAvatar}
+                      alt={review.customerName}
+                      className={styles.avatar}
+                    />
+                    <div>
+                      <div className={styles.customerName}>{review.customerName}</div>
+                      <div className={styles.rating}>
+                        {"★".repeat(review.rating)}
+                        {"☆".repeat(5 - review.rating)}
+                      </div>
+                    </div>
                   </div>
+                  <div className={styles.reviewComment}>{review.comment}</div>
                 </div>
-                <div className={styles.reviewComment}>{review.comment}</div>
-              </div>
-            ))}
+              ))}
+            </div>
+          ) : (
+            <p>Chưa có đánh giá nào.</p>
+          )}
+          <div className={styles.pagination}>
+            {Array.from({ length: Math.ceil(reviews.length / reviewsPerPage) }).map(
+              (_, index) => (
+                <button
+                  key={index}
+                  onClick={() => paginate(index + 1)}
+                  className={currentPage === index + 1 ? styles.active : ""}
+                >
+                  {index + 1}
+                </button>
+              )
+            )}
           </div>
-        ) : (
-          <p>Chưa có đánh giá nào.</p>
-        )}
         </div>
       </section>
-      <section style={{ paddingBottom: "100px",marginTop:"50px" }} id="sellers">
+
+      <section style={{ paddingBottom: "80px",marginTop:"50px" }} id="sellers">
         <div className="seller container">
           <span className="abc">
             <h3 className={styles.h3}>MÓn ăn tương tự</h3>
