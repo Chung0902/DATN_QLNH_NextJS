@@ -35,6 +35,10 @@ const ProductDetail = (props) => {
   const [reviews, setReviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 5;
+
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [comment, setComment] = useState("");
+
   
 
   useEffect(() => {
@@ -212,6 +216,42 @@ const ProductDetail = (props) => {
     setCurrentPage(pageNumber);
   };
   
+  const handleAddReview = async () => {
+    if (!selectedRating || !comment) {
+      alert("Vui lòng chọn số sao và nhập bình luận.");
+      return;
+    }
+  
+    const token = getTokenFromLocalStorage();
+    if (token) {
+      try {
+        const response = await axiosClient.post(
+          `/users/reviews`,
+          {
+            productId: product._id,
+            rating: selectedRating,
+            comment: comment,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.data.success) {
+          setReviews([...reviews, response.data.payload]);
+          setSelectedRating(0);
+          setComment("");
+        }
+      } catch (error) {
+        console.error("Error submitting review:", error);
+        alert("Có lỗi xảy ra khi gửi đánh giá. Vui lòng thử lại sau.");
+      }
+    } else {
+      router.push("/login");
+    }
+  };
+  
   
   
   return (
@@ -361,8 +401,32 @@ const ProductDetail = (props) => {
               {">"}
             </button>
           </div>
-
+          <div className={styles.addReview}>
+            <h3>Thêm đánh giá của bạn</h3>
+            <div className={styles.rating}>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span
+                  key={star}
+                  className={selectedRating >= star ? styles.selectedStar : ""}
+                  onClick={() => setSelectedRating(star)}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+            <textarea
+              placeholder="Viết bình luận của bạn..."
+              value={comment}
+              className={styles.textarea}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <div>
+              <button onClick={handleAddReview}>Gửi đánh giá</button>
+            </div>
+        
         </div>
+        </div>
+       
       </section>
 
       <section style={{ paddingBottom: "80px",marginTop:"50px" }} id="sellers">

@@ -226,7 +226,37 @@
     margin-left: 60px;
     font-size: 11px;
   }
+
+  .selectedStar {
+    color: gold;
+    cursor: pointer;
+  }
   
+  .rating span {
+    cursor: pointer;
+    font-size: 20px;
+    color: gray;
+  }
+  
+  .rating span:hover,
+  .rating span:hover ~ span {
+    color: gold;
+  }
+
+  .textarea {
+    width: 100%;
+    margin-right: 20px;
+    margin-bottom: 10px
+  }
+
+  .addReview {
+    margin-top: 50px;
+  }
+
+
+  
+
+
   
 
   @media screen and (max-width: 577px){
