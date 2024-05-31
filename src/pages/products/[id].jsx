@@ -19,6 +19,7 @@ import ProductItem from "@/components/ProductItem/index.jsx";
 import { useRouter } from "next/router";
 import useCartStore from "@/stores/cartStore";
 import { getTokenFromLocalStorage,removeTokenFromLocalStorage } from "../../utils/tokenUtils";
+import moment from 'moment';
 
 
 const ProductDetail = (props) => {
@@ -332,6 +333,7 @@ const ProductDetail = (props) => {
                       </div>
                     </div>
                   </div>
+                  <div className={styles.createdAt}>{moment(review.createdAt).format('DD/MM/YYYY HH:mm')}</div>
                   <div className={styles.reviewComment}>{review.comment}</div>
                 </div>
               ))}
