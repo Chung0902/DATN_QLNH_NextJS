@@ -296,24 +296,28 @@ const ProductDetail = (props) => {
         </div>
       )}
       <section style={{ paddingBottom: "100px", marginTop: "50px" }} id="reviews">
-        <div className="reviews container">
-          <span className="abc">
-            <h3 className={styles.h3}>Đánh giá món ăn</h3>
+      <div className="seller container">
+      <span className="abc">
+            <h3 className={styles.h3}>MÓn ăn tương tự</h3>
           </span>
-          {reviews.length > 0 ? (
-            <div className="reviews-list">
-              {reviews.map((review, index) => (
-                <div key={index} className={styles.reviewItem}>
-                  <p><strong>{review.customerName}</strong></p>
-                  <img src={review.customerAvatar} alt={`${review.customerName}'s avatar`} className={styles.customerAvatar}/>
-                  <p>{review.comment}</p>
-                  <p>Rating: {review.rating}</p>
+        {reviews.length > 0 ? (
+          <div className={styles.reviewsList}>
+            {reviews.map((review, index) => (
+              <div key={index} className={styles.reviewItem}>
+                <div className={styles.reviewHeader}>
+                  <img src={review.customerAvatar} alt={review.customerName} className={styles.avatar} />
+                  <div>
+                    <div className={styles.customerName}>{review.customerName}</div>
+                    <div className={styles.rating}>{"★".repeat(review.rating)}</div>
+                  </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <small>Chưa có đánh giá nào cho món ăn này</small>
-          )}
+                <div className={styles.reviewComment}>{review.comment}</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>Chưa có đánh giá nào.</p>
+        )}
         </div>
       </section>
       <section style={{ paddingBottom: "100px",marginTop:"50px" }} id="sellers">
