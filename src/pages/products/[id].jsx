@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 import useCartStore from "@/stores/cartStore";
 import { getTokenFromLocalStorage,removeTokenFromLocalStorage } from "../../utils/tokenUtils";
 import moment from 'moment';
+import { notification } from "antd";
 
 
 const ProductDetail = (props) => {
@@ -215,6 +216,7 @@ const ProductDetail = (props) => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   
   const handleAddReview = async () => {
     if (!selectedRating || !comment) {
@@ -226,7 +228,7 @@ const ProductDetail = (props) => {
     if (token) {
       try {
         const response = await axiosClient.post(
-          `/users/reviews`,
+          '/user/reviews',
           {
             productId: product._id,
             rating: selectedRating,
@@ -247,6 +249,8 @@ const ProductDetail = (props) => {
           // Xóa nội dung bình luận và đặt lại số sao đã chọn
           setSelectedRating(0);
           setComment("");
+          
+          fetchReviews();
         }
       } catch (error) {
         console.error("Error submitting review:", error);
