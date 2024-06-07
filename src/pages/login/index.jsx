@@ -140,14 +140,14 @@ const LoginForm = () => {
     
       <div className={`${styles.formWrap} ${styles.signUp}`}>
         <form className={styles.form} onSubmit={handleSubmitSignUp} action="#">
-          <h1 className={styles.h1}>Create An Account</h1>
+          <h1 className={styles.h1}>Tạo một tài khoản</h1>
           
           <div className={styles.socialContainer}>
             <a href="#"><i className={styles.a}><FaFacebook/></i></a>
             <a href="#"><i className={styles.a}><FaGoogle/></i></a>
             <a href="#"><i className={styles.a}><FaGithub/></i></a>
           </div>
-          <span className={styles.span}>use email for registration</span>
+          <span className={styles.span}>Sử dụng email để đăng ký</span>
           <div style={{display:"flex",gap:"10px"}}>
           <input className={styles.input} value={firstName} onChange={handleFirstNameChange} type="text" placeholder="First Name" />
           <input className={styles.input} value={lastName} onChange={handleLastNameChange} type="text" placeholder="Last Name" />
@@ -156,7 +156,7 @@ const LoginForm = () => {
           <input className={styles.input} value={phoneNumber} onChange={handlePhoneChange}  type="text" placeholder="PhoneNumber" />
           <input className={styles.input} value={address} onChange={handleAddressChange}  type="text" placeholder="Address" />
           <input className={styles.input} value={password} onChange={handlePasswordChange} type="password" placeholder="Password" />
-          <button className={styles.button} type="submit" >Create Account</button>
+          <button className={styles.button} type="submit" >Tạo tài khoản</button>
           
         </form>
       </div>
@@ -164,19 +164,19 @@ const LoginForm = () => {
       <div className={`${styles.formWrap} ${styles.signIn}`}>
         <form className={styles.form}  onSubmit={handleSubmitLogin} action="#">
           
-          <h1  className={styles.h1}>Login In</h1>
+          <h1  className={styles.h1}>Đăng nhập</h1>
           
           <div className={styles.socialContainer}>
             <a href="#"><i className={styles.a}><FaFacebook/></i></a>
             <a href="#"><i className={styles.a}><FaGoogle/></i></a>
             <a href="#"><i className={styles.a}><FaGithub/></i></a>
           </div>
-          <span  className={styles.span}>Login In with your Account</span>
+          <span  className={styles.span}>Đăng nhập bằng tài khoản của bạn</span>
         
           <input className={styles.input} value={email} onChange={handleEmailChange}  type="email" placeholder="Email" />
           <input className={styles.input} value={password} onChange={handlePasswordChange} type="password" placeholder="Password" />
-          <span  className={styles.span}>Forgot your <Link href="/forgotPassword" className={styles.forgot}>password?</Link></span>
-          <button className={styles.button} type="submit">Login</button>
+          <span  className={styles.span}>Quên <Link href="/forgotPassword" className={styles.forgot}>mật khẩu ?</Link></span>
+          <button className={styles.button} type="submit">Đăng nhập</button>
           
         </form>
       </div>
@@ -184,14 +184,14 @@ const LoginForm = () => {
       <div className={styles.overlayContainer}>
         <div className={styles.overlay}>
           <div className={`${styles.overlayPannel} ${styles.overlayLeft}`}>
-            <h1 className={styles.h1}>Already have an account</h1>
-            <p className={styles.p}>Please Login</p>
-            <button id="signIn" className={styles.button}>Sign In</button>
+            <h1 className={styles.h1}>Bạn co sẵn sàng để tạo một tài khoản</h1>
+            <p className={styles.p}>Vui lòng hãy đăng nhập</p>
+            <button id="signIn" className={styles.button}>Đăng nhập</button>
           </div>
           <div className={`${styles.overlayPannel} ${styles.overlayRight}`}>
-            <h1 className={styles.h1}>Create Account</h1>
-            <p className={styles.p}>Start Your Journey with Us</p>
-            <button id="signUp" className={styles.button}>Sign Up</button>
+            <h1 className={styles.h1}>Tạo tài khoản</h1>
+            <p className={styles.p}>Bắt đầu hành trình của bạn với chúng tôi</p>
+            <button id="signUp" className={styles.button}>Đăng ký</button>
           </div>
         </div>
       </div>

@@ -242,15 +242,16 @@ const ProductDetail = (props) => {
           }
         );
         if (response.data.success) {
-          // Thêm bình luận mới vào danh sách hiện tại
-          const newReview = response.data.payload;
-          setReviews([...reviews, newReview]);
-
           // Xóa nội dung bình luận và đặt lại số sao đã chọn
           setSelectedRating(0);
           setComment("");
-          
+
+           // Hiển thị thông báo thành công
+           alert('Gửi đánh giá thành công!');
+  
+          // Gọi lại hàm fetchReviews để tải danh sách bình luận mới nhất
           fetchReviews();
+
         }
       } catch (error) {
         console.error("Error submitting review:", error);
