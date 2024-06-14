@@ -23,7 +23,7 @@ import ChatOnline from '@/components/ChatOnline'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({categories,flashsale,bestseller,suppliers}) {
-  return (
+  return ( 
     <>
     <HeadMeta title ="Elysian"/>
     <Banner/>

@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import jwt_decode from "jwt-decode";
+import { Img } from 'react-image'
 
 import axiosClient from "../../libraries/axiosClient.js";
 import HeadMeta from "@/components/HeadMeta/index.jsx";
@@ -39,6 +40,14 @@ const ProductDetail = (props) => {
 
   const [selectedRating, setSelectedRating] = useState(0);
   const [comment, setComment] = useState("");
+
+  const isAbsoluteUrl = (url) => {
+    return url.startsWith('http://') || url.startsWith('https://');
+  };
+  
+  const getImageSrc = (avatar) => {
+    return isAbsoluteUrl(avatar) ? avatar : `${process.env.NEXT_PUBLIC_BASE_URL}/${avatar}`;
+  };
 
   
 
@@ -370,8 +379,8 @@ const ProductDetail = (props) => {
               {currentReviews.map((review, index) => (
                 <div key={index} className={styles.reviewItem}>
                   <div className={styles.reviewHeader}>
-                    <img
-                      src={review.customerAvatar}
+                    <Img
+                      src={getImageSrc(review.customerAvatar)}
                       alt={review.customerName}
                       className={styles.avatar}
                     />
