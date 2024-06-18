@@ -34,7 +34,7 @@ const Tables = ({ tables }) => {
             title: <Link href={`/`}>Trang chủ</Link> ,
           },
           {
-            title: "Tables"
+            title: "Bàn ăn"
           }
         ]}
       />
