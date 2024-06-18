@@ -16,7 +16,10 @@ import Elementor from '@/components/Elementor'
 import VideoNewProducts from '@/components/VideoNewProducts'
 import Banner from '@/components/Banner'
 import ChatOnline from '@/components/ChatOnline'
+import CustomerReviews from '@/components/CustomerReviews'
 // import ScrollToTop from 'react-scroll-to-top';
+
+
 
 
 
@@ -35,7 +38,8 @@ export default function Home({categories,flashsale,bestseller,suppliers}) {
     <FlashSale flashsale={flashsale}/>
     <BestSeller bestseller={bestseller}/>
     <ProductList/>
-    <VideoNewProducts/>
+    <CustomerReviews/>
+    {/* <VideoNewProducts/> */}
     <ChatOnline/>
     
     <Footer/>

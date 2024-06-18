@@ -654,13 +654,17 @@ const Booking = ({products}) => {
 
 export default Booking;
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const { query } = context;
+  const { products } = query;
+
   try {
     const response = await axiosClient.get("/user/products");
 
     return {
       props: {
         products: response.data.payload,
+        selectedProducts: products ? JSON.parse(products) : [],
       },
     };
   } catch (error) {

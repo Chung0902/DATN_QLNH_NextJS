@@ -7,7 +7,7 @@ import styles from './TabletList.module.css';
 const TabletList = () => {
   const [tables, setTables] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 4;
 
   const fetchTables = async () => {
     try {
@@ -40,7 +40,7 @@ const TabletList = () => {
       <section id="sellers">
         <div className="seller container">
           <span className="abc">
-            <h3 className={styles.h3}>Danh sách bàn ăn</h3>
+            <h3 className={styles.h3}></h3>
           </span>
           {currentTables.length > 0 ? (
             <div className="best-seller">
