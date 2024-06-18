@@ -11,7 +11,7 @@ import axiosClient from '@/libraries/axiosClient';
 import FlashSale from '@/components/FlashSale'
 import BestSeller from '@/components/BestSeller'
 import ProductList from '@/components/ProductList'
-import TableList from '@/components/TableList'
+// import TableList from '@/components/TableList'
 import Elementor from '@/components/Elementor'
 import VideoNewProducts from '@/components/VideoNewProducts'
 import Banner from '@/components/Banner'
