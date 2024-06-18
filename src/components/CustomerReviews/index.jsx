@@ -6,7 +6,7 @@ import { Img } from 'react-image';
 const CustomerReviews = () => {
   const [reviews, setReviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const reviewsPerPage = 3;
+  const reviewsPerPage = 4;
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -75,7 +75,7 @@ const CustomerReviews = () => {
 
   return (
     <div className={styles.container}>
-      <h4 className={styles.h4}>Danh sách đánh giá</h4>
+      <h4 className={styles.h4}>Đánh giá của khách hàng</h4>
       <div className={styles.reviewsContainer}>
         {currentReviews.length > 0 ? (
           currentReviews.map((testimonial, index) => (

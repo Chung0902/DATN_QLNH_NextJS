@@ -18,6 +18,7 @@ import Banner from '@/components/Banner'
 import ChatOnline from '@/components/ChatOnline'
 import CustomerReviews from '@/components/CustomerReviews'
 // import ScrollToTop from 'react-scroll-to-top';
+import TabletDetail from './tables/[id]'
 
 
 
@@ -32,7 +33,8 @@ export default function Home({categories,flashsale,bestseller,suppliers}) {
     <Banner/>
     <Header/>
     <Main suppliers={suppliers}/>
-    <TableList/>
+    <TabletDetail/>
+    {/* <TableList/> */}
     <Elementor/>
     <Categories categories={categories}/>
     <FlashSale flashsale={flashsale}/>

@@ -319,7 +319,6 @@ const Booking = ({products}) => {
             stock: newStock,
           });
 
-          // Nếu cần, bạn có thể thực hiện xử lý báo cáo, ghi log hoặc thông báo về việc cập nhật stock thành công
           console.log(
             `Đã cập nhật stock của sản phẩm ${product._id} thành công!`
           );

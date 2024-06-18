@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import TableItem from '../TableItem';
+import TableItem from '../../components/TableItem';
 import axiosClient from '@/libraries/axiosClient';
-import styles from './TabletList.module.css';
+import styles from './TableList.module.css';
 
-const TabletList = () => {
+const TabletDetail = () => {
   const [tables, setTables] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
@@ -60,8 +60,10 @@ const TabletList = () => {
           ) : (
             <small>Không có bàn ăn</small>
           )}
-          {/* Điều khiển phân trang */}
-          <div className={styles.pagination}>
+          
+        </div>
+        {/* Điều khiển phân trang */}
+        <div className={styles.pagination}>
             <button 
               onClick={() => handlePageChange(currentPage - 1)} 
               disabled={currentPage === 1}
@@ -84,11 +86,10 @@ const TabletList = () => {
               &gt;
             </button>
           </div>
-        </div>
       </section>
     </div>
   );
 };
 
-export default TabletList;
+export default TabletDetail;
 
