@@ -17,7 +17,7 @@ import VideoNewProducts from '@/components/VideoNewProducts'
 import Banner from '@/components/Banner'
 import ChatOnline from '@/components/ChatOnline'
 import CustomerReviews from '@/components/CustomerReviews'
-// import ScrollToTop from 'react-scroll-to-top';
+import ScrollToTop from 'react-scroll-to-top';
 import TabletDetail from './tables/[id]'
 
 
@@ -42,10 +42,10 @@ export default function Home({categories,flashsale,bestseller,suppliers}) {
     <ProductList/>
     <CustomerReviews/>
     {/* <VideoNewProducts/> */}
-    <ChatOnline/>
+    {/* <ChatOnline/> */}
     
     <Footer/>
-    {/* <ScrollToTop smooth color="#ffffff" style={{ backgroundColor: '#0088cc' }} /> */}
+    <ScrollToTop smooth color="#ffffff" style={{ backgroundColor: '#0088cc' }} />
 
     </>
   )
