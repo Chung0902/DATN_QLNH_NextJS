@@ -1,5 +1,9 @@
 import React from 'react';
-import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+const DynamicBookingButton = dynamic(() => import('./BookingButton'), {
+  ssr: false,
+});
 
 const TableItem = (props) => {
   const { _id, photo, name, numberOfSeats, setup, status } = props;
@@ -22,32 +26,10 @@ const TableItem = (props) => {
           <p className="product-name1">Trạng thái: {status}</p>
         </div>
         <div className="buy-now1">
-          {isDisabled ? (
-            <button className="disabled-button" disabled>
-              Đặt bàn
-            </button>
-          ) : (
-            <Link
-              href={{
-                pathname: '/booking',
-                query: {
-                  table: JSON.stringify({ 
-                    _id,
-                    photo,
-                    name,
-                    numberOfSeats,
-                    setup,
-                    status
-                  })
-                }
-              }}
-              passHref
-            >
-              <button>
-                Đặt bàn
-              </button>
-            </Link>
-          )}
+          <DynamicBookingButton
+            isDisabled={isDisabled}
+            tableData={{ _id, photo, name, numberOfSeats, setup, status }}
+          />
         </div>
       </div>
     </div>

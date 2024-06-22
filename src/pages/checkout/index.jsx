@@ -138,6 +138,10 @@ const Checkout = ({ tables }) => {
 
   // Xử lý khi nhấn nút "Thanh toán"
   const handlePayment = async () => {
+    if (!tableId) {
+      alert("Vui lòng chọn bàn ăn trước đặt đơn.");
+      return;
+    }
     const token = getTokenFromLocalStorage();
     if (token) {
       try {
@@ -280,6 +284,10 @@ const Checkout = ({ tables }) => {
 
 
   const handlePayPalClick = () => {
+    if(!tableId) {
+      alert("Vui lòng chọn bàn trước khi thanh toán bằng Paypal.");
+      return;
+    }
     setIsPayPalActive(true);
   };
 
