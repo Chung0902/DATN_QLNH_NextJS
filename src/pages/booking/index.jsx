@@ -533,7 +533,7 @@ const Booking = ({products}) => {
                     handleNewRowChange(e, index, "productId")
                   }
                 >
-                  <option value="">Chọn sản phẩm</option>
+                  <option value="">Chọn món ăn</option>
                   {products.map((product) => (
                     product.stock > 0 && (
                       <option key={product._id} value={product._id}>

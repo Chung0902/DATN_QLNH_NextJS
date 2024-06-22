@@ -27,6 +27,7 @@ const useCartStore = create((set) => ({
       console.error("Error fetching cart data:", error);
     }
   },
+  clearCart: () => set({ cartItems: [] }),
 }));
 
 export default useCartStore;

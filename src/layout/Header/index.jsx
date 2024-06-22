@@ -105,10 +105,18 @@ function Header({ handleSearch }) {
   //xử lý đăng xuất
   const handleLogout = () => {
     if (isLoggedIn) {
+      // Xóa token
       removeTokenFromLocalStorage();
+  
+      // Cập nhật trạng thái đăng nhập
       setIsLoggedIn(false);
       setIsLoginSuccess(false);
-      router.replace("/"); // Hoặc sử dụng window.location.reload()
+  
+      // Xóa dữ liệu giỏ hàng
+      useCartStore.getState().clearCart();
+  
+      // Chuyển hướng về trang chủ
+      router.replace("/");
     }
   };
   
