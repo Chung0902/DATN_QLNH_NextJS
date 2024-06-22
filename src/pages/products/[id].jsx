@@ -448,10 +448,10 @@ const ProductDetail = (props) => {
        
       </section>
 
-      <section style={{ paddingBottom: "80px",marginTop:"50px" }} id="sellers">
+      <section style={{ paddingBottom: "80px", marginTop: "50px" }} id="sellers">
         <div className="seller container">
           <span className="abc">
-            <h3 className={styles.h3}>MÓn ăn tương tự</h3>
+            <h3 className={styles.h3}>Món ăn tương tự</h3>
           </span>
           {searchResults.length > 0 ? (
             <div className="best-seller">
@@ -465,6 +465,7 @@ const ProductDetail = (props) => {
                         name={p.name}
                         price={p.price}
                         discountedPrice={p.discountedPrice}
+                        handleAddToCart={handleAddToCart}
                       />
                     </Link>
                   );
@@ -478,6 +479,7 @@ const ProductDetail = (props) => {
           )}
         </div>
       </section>
+
 
       <Footer />
     </>
