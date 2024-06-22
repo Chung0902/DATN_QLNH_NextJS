@@ -58,12 +58,6 @@ const Booking = ({products}) => {
 
   const totalPayment = totalProductPrice * (1 - discountValue / 100);
 
-  const paypalAmount = (totalPayment / 23678).toFixed(2);
-  if (parseFloat(paypalAmount) <= 0) {
-    alert("Giá trị thanh toán không hợp lệ. Vui lòng kiểm tra lại giỏ hàng.");
-    return;
-  }
-
 
    // Hàm xử lý thay đổi khi chọn sản phẩm hoặc thay đổi số lượng
    const handleNewRowChange = (e, index, field) => {
@@ -135,6 +129,7 @@ const Booking = ({products}) => {
 
   useEffect(() => {
     const token = getTokenFromLocalStorage();
+
     if (token) {
       try {
         // Giải mã token để lấy thông tin customerId
@@ -287,7 +282,7 @@ const Booking = ({products}) => {
   };
   
 
-  const onSuccessPaypal = async (details, data, selectedProducts) => {
+  const onSuccessPaypal = async (details, data) => {
     const token = getTokenFromLocalStorage();
     if (token) {
       try {
@@ -328,7 +323,6 @@ const Booking = ({products}) => {
             stock: newStock,
           });
 
-          // Nếu cần, bạn có thể thực hiện xử lý báo cáo, ghi log hoặc thông báo về việc cập nhật stock thành công
           console.log(
             `Đã cập nhật stock của sản phẩm ${product._id} thành công!`
           );
@@ -336,14 +330,12 @@ const Booking = ({products}) => {
 
         router.push("/checkoutSuccess");
       } catch (error) {
-        alert("Lỗi!!! Tạo đơn hàng thất bại: " + error.message);
-        console.error("Lỗi khi tạo đơn hàng:", error);
+        alert("Lỗi!!!Tạo đơn hàng thất bại", error);
       }
     }
   };
 
   useEffect(() => {
-
     const token = getTokenFromLocalStorage();
     const fetchData = async () => {
       try {
@@ -643,28 +635,13 @@ const Booking = ({products}) => {
             {isPayPalActive && sdkReady ? (
               <div className={styles.btnPaypal}>
                 <div style={{ width: "200px" }}>
-                <PayPalButton
-                  amount={Math.round((totalPriceValue + 0) / 23678)}
-                  createOrder={(data, actions) => {
-                    const amount = (totalPayment / 23678).toFixed(2);
-                    if (parseFloat(amount) <= 0) {
-                      throw new Error("Invalid payment amount");
-                    }
-                    return actions.order.create({
-                      purchase_units: [{
-                        amount: {
-                          currency_code: "USD",
-                          value: amount
-                        }
-                      }]
-                    });
-                  }}
-                  onSuccess={onSuccessPaypal}
-                  onError={(err) => {
-                    console.error("PayPal Error:", err);
-                    alert(`PayPal Error: ${err.message || 'Unknown error occurred'}`);
-                  }}
-                />
+                  <PayPalButton
+                    amount={Math.round((totalPriceValue + 0) / 23678)}
+                    onSuccess={onSuccessPaypal}
+                    onError={() => {
+                      alert('Error')
+                    }}
+                  />
                 </div>
               </div>
             ) : (
