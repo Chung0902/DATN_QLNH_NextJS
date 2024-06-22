@@ -250,6 +250,7 @@ const Checkout = ({ tables }) => {
         alert("Lỗi!!!Tạo đơn hàng thất bại", error);
       }
     }
+    
   };
 
   useEffect(() => {

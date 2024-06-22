@@ -286,13 +286,13 @@ const Booking = ({products}) => {
     const token = getTokenFromLocalStorage();
     if (token) {
       try {
-        const orderDetails = selectedProducts.map((product) => ({
-          productId: product._id,
-          quantity: product.quantity,
-          price: product.price,
+        const orderDetails = newRows.map((row) => ({
+          productId: row.productId,
+          quantity: row.quantity,
+          price: row.productPrice,
         }));
         const orderData = {
-          createdDate: new Date().toISOString(), // Ngày tạo đơn hàng là ngày hiện tại
+          createdDate: new Date().toISOString(),
           paymentType: "CREDIT CARD",
           status: "WAITING",
           shippingAddress: address,
@@ -302,38 +302,39 @@ const Booking = ({products}) => {
           tableId: selectedTable._id,
           isDelete: false,
         };
-
+  
         // Đưa headers vào trong object headers
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-
+  
         const response = await axiosClient.post("/user/orders", orderData, {
           headers,
         });
-
+  
         console.log("Đơn hàng đã được tạo:", response.data);
-
+  
         // Cập nhật stock sau khi thanh toán thành công
-        for (const product of selectedProducts) {
-          const newStock = product.stock - product.quantity;
-
+        for (const product of newRows) {
+          const newStock = product.productStock - product.quantity;
+  
           // Gửi yêu cầu cập nhật stock lên server
-          await axiosClient.patch(`/user/products/${product._id}`, {
+          await axiosClient.patch(`/user/products/${product.productId}`, {
             stock: newStock,
           });
-
+  
           console.log(
-            `Đã cập nhật stock của sản phẩm ${product._id} thành công!`
+            `Đã cập nhật stock của sản phẩm ${product.productId} thành công!`
           );
         }
-
+  
         router.push("/checkoutSuccess");
       } catch (error) {
-        alert("Lỗi!!!Tạo đơn hàng thất bại", error);
+        alert("Lỗi!!! Tạo đơn hàng thất bại", error);
       }
     }
   };
+  
 
   useEffect(() => {
     const token = getTokenFromLocalStorage();
@@ -635,13 +636,24 @@ const Booking = ({products}) => {
             {isPayPalActive && sdkReady ? (
               <div className={styles.btnPaypal}>
                 <div style={{ width: "200px" }}>
-                  <PayPalButton
-                    amount={Math.round((totalPriceValue + 0) / 23678)}
-                    onSuccess={onSuccessPaypal}
-                    onError={() => {
-                      alert('Error')
-                    }}
-                  />
+                <PayPalButton
+      amount={Math.round((totalPayment + 0) / 23678)}
+      onSuccess={onSuccessPaypal}
+      onError={(err) => {
+        console.error(err);
+        alert('Error occurred during PayPal transaction');
+      }}
+      createOrder={(data, actions) => {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              currency_code: "USD",
+              value: Math.round((totalPayment + 0) / 23678).toString()
+            }
+          }]
+        });
+      }}
+    />
                 </div>
               </div>
             ) : (
@@ -675,6 +687,7 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
+    console.error("Error fetching products:", error);
     return {
       notFound: true,
     };
