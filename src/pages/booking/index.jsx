@@ -637,23 +637,23 @@ const Booking = ({products}) => {
               <div className={styles.btnPaypal}>
                 <div style={{ width: "200px" }}>
                 <PayPalButton
-      amount={Math.round((totalPayment + 0) / 23678)}
-      onSuccess={onSuccessPaypal}
-      onError={(err) => {
-        console.error(err);
-        alert('Error occurred during PayPal transaction');
-      }}
-      createOrder={(data, actions) => {
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              currency_code: "USD",
-              value: Math.round((totalPayment + 0) / 23678).toString()
-            }
-          }]
-        });
-      }}
-    />
+                  amount={Math.round((totalPayment + 0) / 23678)}
+                  onSuccess={onSuccessPaypal}
+                  onError={(err) => {
+                    console.error(err);
+                    alert('Error occurred during PayPal transaction');
+                  }}
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [{
+                        amount: {
+                          currency_code: "USD",
+                          value: Math.round((totalPayment + 0) / 23678).toString()
+                        }
+                      }]
+                    });
+                  }}
+                />
                 </div>
               </div>
             ) : (
