@@ -453,7 +453,7 @@ const ProductDetail = (props) => {
           <span className="abc">
             <h3 className={styles.h3}>Món ăn tương tự</h3>
           </span>
-          {searchResults.length > 0 ? (
+          {searchResults && searchResults.length > 0 ? (
             <div className="best-seller">
               {searchResults.map((p) => {
                 if (p._id !== product._id) {

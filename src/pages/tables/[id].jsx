@@ -42,7 +42,7 @@ const TabletDetail = () => {
           <span className="abc">
             <h3 className={styles.h3}></h3>
           </span>
-          {currentTables.length > 0 ? (
+          {currentTables && currentTables.length > 0 ? (
             <div className="best-seller">
               {currentTables.map((table) => (
                 <Link key={table._id} href={`/tables/${table._id}`}>

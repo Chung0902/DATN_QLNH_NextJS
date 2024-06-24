@@ -94,7 +94,7 @@ const handleAddToCart = async (_id, stock) => { // Thêm tham số stock vào h�
           <span className="abc">
             <h3 className={styles.h3}>Tất cả món ăn</h3>
           </span>
-          {products.length > 0 ? (
+          {products && products.length > 0 ? (
             <div className="best-seller">
               {products.map((p) => (
                 <Link key={p._id} href={`/products/${p._id}`}>

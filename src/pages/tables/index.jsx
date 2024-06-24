@@ -43,7 +43,7 @@ const Tables = ({ tables }) => {
           <span className="abc">
             <h3 className={styles.h3}>Tất cả bàn ăn</h3>
           </span>
-          {tables.length > 0 ? (
+          {tables && tables.length > 0 ? (
             <div className="best-seller">
               {tables.map((p) => (
                 <Link key={p._id} href={''}>
