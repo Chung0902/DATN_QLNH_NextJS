@@ -262,29 +262,32 @@ const App = () => {
                     {p.status === "CANCELED" && <p>Đã hủy</p>}
                   </div>
                   {p.orderDetails.map((o) => (
-                    <div key={o._id} className={styles.wrapperProducts}>
-                      <Link
-                        href={`/user/purchase/order/${p._id}`}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          textDecoration: "none",
-                        }}
-                      >
-                        <img src={o.productId.photo} alt="" />
-                        <div className={styles.nameProducts}>
-                          <p>{o.productId.name}</p>
-                          <p style={{ fontSize: "14px" }}>x{o.quantity}</p>
-                        </div>
-                      </Link>
-                      <span>
-                        {o.price.toLocaleString("vi-VN", {
+                  <div key={o._id} className={styles.wrapperProducts}>
+                    <Link
+                      href={`/user/purchase/order/${p._id}`}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        textDecoration: "none",
+                      }}
+                    >
+                      <img src={o.productId.photo} alt="" />
+                      <div className={styles.nameProducts}>
+                        <p>{o.productId.name}</p>
+                        <p style={{ fontSize: "14px" }}>x{o.quantity}</p>
+                      </div>
+                    </Link>
+                    <span>
+                      {/* Tính giá sản phẩm sau khi trừ giảm giá */}
+                      {((o.price * (1 - o.productId.discount / 100)) * o.quantity)
+                        .toLocaleString("vi-VN", {
                           style: "currency",
                           currency: "VND",
                         })}
-                      </span>
-                    </div>
-                  ))}
+                    </span>
+                  </div>
+                ))}
+
                   <div className={styles.wrapperTotal}>
                     <div className={styles.totalPrice}>
                       <h4>Thành tiền: </h4>
@@ -293,8 +296,8 @@ const App = () => {
                           .reduce(
                             (total, o) =>
                               total +
-                              o.price * o.quantity * (1 - p.discount / 100),
-                            11000
+                              (o.price * (1 - o.productId.discount / 100)) * o.quantity * (1 - p.discount / 100),
+                            0
                           )
                           .toLocaleString("vi-VN", {
                             style: "currency",
@@ -348,7 +351,7 @@ const App = () => {
                           onOk={() => handleOk2(p._id)}
                           onCancel={handleCancel2}
                         >
-                          <p>Bạn có muốn xác nhận đơn hàng đã được giao?</p>
+                          <p>Bạn có muốn xác nhận đơn hàng đã hoàn thành?</p>
                         </Modal>
                       </>
                     )}

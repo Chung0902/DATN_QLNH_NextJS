@@ -46,10 +46,11 @@ const items = [
     getItem("Đổi mật khẩu", "3"),
   ]),
 ];
-const App = () => {
+const App = ({products}) => {
   const [order, setOrder] = useState([]);
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
 
   const router = useRouter();
   const { id } = router.query; // Lấy giá trị của id từ URL
@@ -225,6 +226,7 @@ const App = () => {
                     <p>{phoneNumber}</p>
                     <p>{p.shippingAddress}</p>
                   </div>
+
                   <div className={styles.wrapperOrder}>
                     {p.orderDetails.map((o) => (
                       <div key={o._id} className={styles.wrapperProducts}>
@@ -236,14 +238,16 @@ const App = () => {
                           </div>
                         </div>
                         <span>
-                          {o.price.toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
+                        {((o.price * (1 - o.productId.discount / 100)) * o.quantity)
+                        .toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
                         </span>
                       </div>
                     ))}
                   </div>
+
 
                   <div className={styles.totalPriceAfter}>
                     <table>
@@ -253,7 +257,7 @@ const App = () => {
                           <td>
                             {p.orderDetails
                               .reduce(
-                                (total, o) => total + o.price * o.quantity,
+                                (total, o) => total + (o.price * (1 - o.productId.discount / 100)) * o.quantity,
                                 0
                               )
                               .toLocaleString("vi-VN", {
@@ -269,7 +273,7 @@ const App = () => {
                               .reduce(
                                 (total, o) =>
                                   total +
-                                  o.price * o.quantity * (p.discount / 100),
+                                (o.price * (1 - o.productId.discount / 100)) * o.quantity * (p.discount / 100),
                                 0
                               )
                               .toLocaleString("vi-VN", {
@@ -296,7 +300,7 @@ const App = () => {
                                 .reduce(
                                   (total, o) =>
                                     total +
-                                    o.price *
+                                  (o.price * (1 - o.productId.discount / 100)) *
                                       o.quantity *
                                       (1 - p.discount / 100),
                                     0
@@ -338,3 +342,22 @@ const App = () => {
   );
 };
 export default App;
+
+// getServerSideProps - Server-Side Rendering
+export async function getServerSideProps() {
+  try {
+    const response = await axiosClient.get("/user/products");
+
+    return {
+      props: {
+        products: response.data.payload,
+      },
+
+      // revalidate: 24 * 60 * 60,
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+}
