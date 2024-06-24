@@ -296,7 +296,7 @@ const Booking = ({products}) => {
           paymentType: "CREDIT CARD",
           status: "WAITING",
           shippingAddress: address,
-          discount: discount,
+          discount: discountValue,
           customerId: customerId,
           orderDetails: orderDetails,
           tableId: selectedTable._id,
