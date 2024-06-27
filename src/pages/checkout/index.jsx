@@ -202,6 +202,8 @@ const Checkout = ({ tables }) => {
           customerId: customerId,
           orderDetails: orderDetails,
           tableId: tableId,
+          reservationDate: reservationDate,
+          reservationTime: reservationTime,
           isDelete: false,
         };
 
@@ -258,6 +260,8 @@ const Checkout = ({ tables }) => {
           customerId: customerId,
           orderDetails: orderDetails,
           tableId: tableId,
+          reservationDate: reservationDate,
+          reservationTime: reservationTime,
           isDelete: false,
         };
 
