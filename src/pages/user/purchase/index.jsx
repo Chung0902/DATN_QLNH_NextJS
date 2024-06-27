@@ -257,7 +257,7 @@ const App = () => {
                       Xem tiến trình đơn hàng
                     </Link>
                     {p.status === "WAITING" && <p>Chờ xác nhận</p>}
-                    {p.status === "DELIVERING" && <p>Đang giao</p>}
+                    {p.status === "DELIVERING" && <p>Đang thực hiện</p>}
                     {p.status === "COMPLETED" && <p>Hoàn thành</p>}
                     {p.status === "CANCELED" && <p>Đã hủy</p>}
                   </div>

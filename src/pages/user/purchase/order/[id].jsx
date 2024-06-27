@@ -150,7 +150,7 @@ const App = ({products}) => {
                 <div key={p._id}>
                   {p.status === "WAITING" && <p>Chờ xác nhận</p>}
                   {p.status === "CANCELED" && <p>Đã hủy</p>}
-                  {p.status === "DELIVERING" && <p>Đang giao</p>}
+                  {p.status === "DELIVERING" && <p>Đang thực hiện</p>}
                   {p.status === "COMPLETED" && <p>Hoàn thành</p>}
                 </div>
               ))}
