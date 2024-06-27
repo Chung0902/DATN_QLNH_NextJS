@@ -14,9 +14,7 @@ import { getTokenFromLocalStorage } from "@/utils/tokenUtils";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
 
-
-
-const Booking = ({products}) => {
+const Booking = ({ products }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
@@ -36,10 +34,8 @@ const Booking = ({products}) => {
   const router = useRouter();
   const [productId, setProductId] = useState("");
 
-
   const [showNewRow, setShowNewRow] = useState(false);
   const [newRows, setNewRows] = useState([]);
-  
 
   const { table } = router.query;
   const selectedTable = table ? JSON.parse(table) : null;
@@ -58,9 +54,11 @@ const Booking = ({products}) => {
 
   const totalPayment = totalProductPrice * (1 - discountValue / 100);
 
+  const [reservationDate, setReservationDate] = useState('');
+  const [reservationTime, setReservationTime] = useState('');
 
-   // Hàm xử lý thay đổi khi chọn sản phẩm hoặc thay đổi số lượng
-   const handleNewRowChange = (e, index, field) => {
+  // Hàm xử lý thay đổi khi chọn sản phẩm hoặc thay đổi số lượng
+  const handleNewRowChange = (e, index, field) => {
     const { value } = e.target;
 
     if (field === "productId") {
@@ -105,7 +103,6 @@ const Booking = ({products}) => {
       });
     }
   };
-  
 
   const handleDeleteNewRow = (index) => {
     setNewRows((prevRows) => {
@@ -206,8 +203,9 @@ const Booking = ({products}) => {
       (ward) => ward.Id === selectedWard
     );
     // Tạo địa chỉ hoàn chỉnh
-    const completeAddress = `${selectedWardData?.Name || ""}, ${selectedDistrictData?.Name || ""
-      }, ${selectedCityData?.Name || ""}, ${addressDetail || ""}`;
+    const completeAddress = `${selectedWardData?.Name || ""}, ${
+      selectedDistrictData?.Name || ""
+    }, ${selectedCityData?.Name || ""}, ${addressDetail || ""}`;
     // Cập nhật địa chỉ hoàn chỉnh vào state địa chỉ
     setAddress(completeAddress);
   };
@@ -220,7 +218,45 @@ const Booking = ({products}) => {
       await callback(array[index], index, array);
     }
   }
+  
 
+  useEffect(() => {
+    const now = new Date();
+    const currentDate = getCurrentDate(); 
+    const currentTime = now.toTimeString().split(' ')[0].substring(0, 5); // HH:MM
+
+    setReservationDate(currentDate);
+    setReservationTime(currentTime);
+  }, []);
+
+  const getCurrentDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const getMinTime = () => {
+    if (reservationDate === getCurrentDate()) {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      return `${hours}:${minutes}`;
+    }
+    return '00:00';
+  };
+
+  const handleDateChange = (e) => {
+    const selectedDate = e.target.value;
+    if (selectedDate < getCurrentDate()) {
+      alert("Không thể chọn ngày trong quá khứ");
+      return;
+    }
+    setReservationDate(selectedDate);
+    // Reset thời gian nếu ngày thay đổi
+    setReservationTime('');
+  };
 
   // Xử lý khi nhấn nút "Thanh toán"
   const handlePayment = async () => {
@@ -230,13 +266,14 @@ const Booking = ({products}) => {
     }
     try {
       const token = getTokenFromLocalStorage();
-      if (token && selectedTable) { // Kiểm tra selectedTable tồn tại
+      if (token && selectedTable) {
+        // Kiểm tra selectedTable tồn tại
         const orderDetails = newRows.map((row) => ({
           productId: row.productId,
           quantity: row.quantity,
           price: row.productPrice,
         }));
-  
+
         const orderData = {
           createdDate: new Date().toISOString(),
           paymentType: "CASH",
@@ -246,19 +283,21 @@ const Booking = ({products}) => {
           customerId: customerId,
           orderDetails: orderDetails,
           tableId: selectedTable._id,
+          reservationDate: reservationDate,
+          reservationTime: reservationTime,
           isDelete: false,
         };
-  
+
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-  
+
         const response = await axiosClient.post("/user/orders", orderData, {
           headers,
         });
-  
+
         console.log("Đơn hàng đã được tạo:", response.data);
-  
+
         // Cập nhật stock sau khi thanh toán thành công
         for (const row of newRows) {
           const product = products.find((p) => p._id === row.productId);
@@ -267,10 +306,12 @@ const Booking = ({products}) => {
             await axiosClient.patch(`/user/products/${product._id}`, {
               stock: newStock,
             });
-            console.log(`Đã cập nhật stock của sản phẩm ${product._id} thành công!`);
+            console.log(
+              `Đã cập nhật stock của sản phẩm ${product._id} thành công!`
+            );
           }
         }
-  
+
         router.push("/checkoutSuccess");
       } else {
         console.error("Selected table is not available!");
@@ -280,7 +321,6 @@ const Booking = ({products}) => {
       alert("Lỗi!!! Tạo đơn hàng thất bại", error);
     }
   };
-  
 
   const onSuccessPaypal = async (details, data) => {
     const token = getTokenFromLocalStorage();
@@ -300,60 +340,62 @@ const Booking = ({products}) => {
           customerId: customerId,
           orderDetails: orderDetails,
           tableId: selectedTable._id,
+          reservationDate: reservationDate,
+          reservationTime: reservationTime,
           isDelete: false,
         };
-  
+
         // Đưa headers vào trong object headers
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-  
+
         const response = await axiosClient.post("/user/orders", orderData, {
           headers,
         });
-  
+
         console.log("Đơn hàng đã được tạo:", response.data);
-  
+
         // Cập nhật stock sau khi thanh toán thành công
         for (const product of newRows) {
           const newStock = product.productStock - product.quantity;
-  
+
           // Gửi yêu cầu cập nhật stock lên server
           await axiosClient.patch(`/user/products/${product.productId}`, {
             stock: newStock,
           });
-  
+
           console.log(
             `Đã cập nhật stock của sản phẩm ${product.productId} thành công!`
           );
         }
-  
+
         router.push("/checkoutSuccess");
       } catch (error) {
         alert("Lỗi!!! Tạo đơn hàng thất bại", error);
       }
     }
   };
-  
 
   useEffect(() => {
     const token = getTokenFromLocalStorage();
     const fetchData = async () => {
       try {
         const response = await axiosClient.get(
-          "https://datn-qlnh-nodejs.onrender.com/user/orders/payment", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+          "https://datn-qlnh-nodejs.onrender.com/user/orders/payment",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
+        const script = document.createElement("script");
+        script.type = "text/javascript";
         script.src = `https://www.paypal.com/sdk/js?client-id=${response.data.data}`;
         script.async = true;
         script.onload = () => {
-          setSdkReady(true)
-        }
+          setSdkReady(true);
+        };
         document.body.appendChild(script);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -365,7 +407,6 @@ const Booking = ({products}) => {
       setSdkReady(true);
     }
   }, []);
-
 
   const handlePayPalClick = () => {
     if (newRows.length === 0) {
@@ -382,8 +423,6 @@ const Booking = ({products}) => {
   const handlePaymentToggle = () => {
     setIsPaymentShown(!isPaymentShown);
   };
-
-
 
   return (
     <div style={{ backgroundColor: " #f7f7f7" }}>
@@ -500,7 +539,9 @@ const Booking = ({products}) => {
                     <img src={selectedTable.photo} alt="" />
                     <p>{selectedTable.name}</p>
                   </td>
-                  <td className={styles.tdPrice}>{selectedTable.numberOfSeats}</td>
+                  <td className={styles.tdPrice}>
+                    {selectedTable.numberOfSeats}
+                  </td>
                   <td className={styles.tdQuantity}>{selectedTable.setup}</td>
                   <td className={styles.tdTotal}>{selectedTable.status}</td>
                 </tr>
@@ -509,99 +550,127 @@ const Booking = ({products}) => {
           </table>
         </div>
         <div className={styles.wrapperProductsOrder}>
-  <table>
-    <button
-      type="button"
-      title="Thêm món ăn"
-      onClick={handleAddNewItem}
-      className={styles.addproduct}
-    >
-      CHỌN MÓN ĂN
-    </button>
-  </table>
-  {showTable && (
-    <div>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Sản phẩm</th>
-            <th>Số lượng</th>
-            <th>Giá</th>
-            <th>Giảm giá</th>
-            <th>Tổng tiền</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {newRows.map((row, index) => (
-            <tr key={index}>
-              <td>
-                <select
-                  value={row.productId}
-                  onChange={(e) =>
-                    handleNewRowChange(e, index, "productId")
-                  }
-                >
-                  <option value="">Chọn món ăn</option>
-                  {products.map((product) => (
-                    product.stock > 0 && (
-                      <option key={product._id} value={product._id}>
-                        {product.name}
-                      </option>
-                    )
+          <table>
+            <button
+              type="button"
+              title="Thêm món ăn"
+              onClick={handleAddNewItem}
+              className={styles.addproduct}
+            >
+              CHỌN MÓN ĂN
+            </button>
+          </table>
+          {showTable && (
+            <div>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Giảm giá</th>
+                    <th>Tổng tiền</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {newRows.map((row, index) => (
+                    <tr key={index}>
+                      <td>
+                        <select
+                          value={row.productId}
+                          onChange={(e) =>
+                            handleNewRowChange(e, index, "productId")
+                          }
+                        >
+                          <option value="">Chọn món ăn</option>
+                          {products.map(
+                            (product) =>
+                              product.stock > 0 && (
+                                <option key={product._id} value={product._id}>
+                                  {product.name}
+                                </option>
+                              )
+                          )}
+                        </select>
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          value={row.quantity}
+                          onChange={(e) =>
+                            handleNewRowChange(e, index, "quantity")
+                          }
+                          min="1"
+                          max={row.productStock} // Giới hạn số lượng tối đa
+                        />
+                      </td>
+                      <td>{row.productPrice}</td>
+                      <td>{row.productDiscount}%</td>
+
+                      <td>{row.totalOrderDetailPrice}</td>
+                      <td>
+                        <button
+                          onClick={() => handleDeleteNewRow(index)}
+                          className={styles.deleteButton}
+                        >
+                          Xóa
+                        </button>
+                      </td>
+                    </tr>
                   ))}
-                </select>
-              </td>
-              <td>
-                <input
-                  type="number"
-                  value={row.quantity}
-                  onChange={(e) =>
-                    handleNewRowChange(e, index, "quantity")
-                  }
-                  min="1"
-                  max={row.productStock} // Giới hạn số lượng tối đa
-                />
-              </td>
-              <td>{row.productPrice}</td>
-              <td>{row.productDiscount}%</td>
-              
-              <td>{row.totalOrderDetailPrice}</td>
-              <td>
-                <button
-                  onClick={() => handleDeleteNewRow(index)}
-                  className={styles.deleteButton}
-                >
-                  Xóa
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
-      )}
-    </div>
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        <div className={styles.wrapperProductsOrder}>
+          <h3>Thời gian đến</h3>
+          <div className={styles.timeSelection}>
+            <div className={styles.dateInput}>
+              <input 
+                type="date" 
+                value={reservationDate}
+                min={getCurrentDate()}
+                onChange={handleDateChange}
+              />
+            </div>
+            <div className={styles.timeInput}>
+              <input 
+                type="time" 
+                value={reservationTime}
+                min={getMinTime()}
+                onChange={(e) => setReservationTime(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+
         <div className={styles.wrapperPay}>
           <div className={styles.payMethod}>
             <h3>Phương thức thanh toán:</h3>
             {isPaymentShown ? (
-              <div style={{ display: 'flex' }} className={styles.changePayment}>
+              <div style={{ display: "flex" }} className={styles.changePayment}>
                 <div
-                  className={`${styles.paymentItem} ${isPayPalActive ? styles.active : ''}`}
+                  className={`${styles.paymentItem} ${
+                    isPayPalActive ? styles.active : ""
+                  }`}
                   onClick={handlePayPalClick}
                 >
                   PayPal
                 </div>
                 <div
-                  className={`${styles.paymentItem} ${!isPayPalActive ? styles.active : ''}`}
+                  className={`${styles.paymentItem} ${
+                    !isPayPalActive ? styles.active : ""
+                  }`}
                   onClick={handleCODClick}
                 >
                   Thanh toán khi hoàn thành
                 </div>
               </div>
             ) : (
-              <div className={styles.payBefore} style={{ display: 'flex' }}>
+              <div className={styles.payBefore} style={{ display: "flex" }}>
                 <p>Thanh toán khi hoàn thành</p>
                 <span onClick={handlePaymentToggle}>Thay đổi</span>
               </div>
@@ -612,22 +681,32 @@ const Booking = ({products}) => {
               <tbody>
                 <tr>
                   <td>Tổng tiền:</td>
-                  <td>{totalProductPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                  <td>
+                    {totalProductPrice.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </td>
                 </tr>
                 <tr>
                   <td>Mã giảm giá:</td>
                   <td>
-                  <input
-                    type="text"
-                    placeholder="Nhập mã giảm giá"
-                    value={discountValue}
-                    onChange={(e) => setDiscountValue(e.target.value)}
-                  />
+                    <input
+                      type="text"
+                      placeholder="Nhập mã giảm giá"
+                      value={discountValue}
+                      onChange={(e) => setDiscountValue(e.target.value)}
+                    />
                   </td>
                 </tr>
                 <tr>
                   <td>Tổng thanh toán:</td>
-                  <td className={styles.td}>{totalPayment.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                  <td className={styles.td}>
+                    {totalPayment.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -636,24 +715,28 @@ const Booking = ({products}) => {
             {isPayPalActive && sdkReady ? (
               <div className={styles.btnPaypal}>
                 <div style={{ width: "200px" }}>
-                <PayPalButton
-                  amount={Math.round((totalPayment + 0) / 23678)}
-                  onSuccess={onSuccessPaypal}
-                  onError={(err) => {
-                    console.error(err);
-                    alert('Error occurred during PayPal transaction');
-                  }}
-                  createOrder={(data, actions) => {
-                    return actions.order.create({
-                      purchase_units: [{
-                        amount: {
-                          currency_code: "USD",
-                          value: Math.round((totalPayment + 0) / 23678).toString()
-                        }
-                      }]
-                    });
-                  }}
-                />
+                  <PayPalButton
+                    amount={Math.round((totalPayment + 0) / 23678)}
+                    onSuccess={onSuccessPaypal}
+                    onError={(err) => {
+                      console.error(err);
+                      alert("Error occurred during PayPal transaction");
+                    }}
+                    createOrder={(data, actions) => {
+                      return actions.order.create({
+                        purchase_units: [
+                          {
+                            amount: {
+                              currency_code: "USD",
+                              value: Math.round(
+                                (totalPayment + 0) / 23678
+                              ).toString(),
+                            },
+                          },
+                        ],
+                      });
+                    }}
+                  />
                 </div>
               </div>
             ) : (

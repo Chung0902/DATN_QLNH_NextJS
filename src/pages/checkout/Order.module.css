@@ -190,6 +190,36 @@
   border: 2px solid #fd8700;
   color: #fd8700;
 }
+
+
+.timeSelection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dateInput,
+.timeInput {
+  display: flex;
+  align-items: center;
+}
+
+.dateInput input,
+.timeInput input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dateInput input:focus,
+.timeInput input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
 @media screen and (max-width: 577px) {
   .wrapperAddress {
     padding: 15px 10px;

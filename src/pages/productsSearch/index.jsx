@@ -91,7 +91,7 @@ const ProductsSearch = () => {
   return (
     <>
       <div>
-        <HeadMeta title="Sản phẩm tìm kiếm" />
+        <HeadMeta title="Món ăn tìm kiếm" />
         <Header />
         <section
           style={{ paddingBottom: "50px", minHeight: "500px" }}
@@ -102,7 +102,7 @@ const ProductsSearch = () => {
               <>
                 <span className="abc">
                   <h3 style={{ marginTop: "20px" }} className="hh4">
-                    Sản phẩm tìm kiếm
+                    Món ăn tìm kiếm
                   </h3>
                 </span>
                 <div className="best-seller">
@@ -121,7 +121,7 @@ const ProductsSearch = () => {
                 </div>
               </>
             ) : (
-              <small>Không có sản phẩm nào</small>
+              <small>Không có món ăn nào</small>
             )}
           </div>
         </section>

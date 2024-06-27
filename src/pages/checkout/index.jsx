@@ -43,6 +43,48 @@ const Checkout = ({ tables }) => {
 
   const totalPriceValue = totalPrice ? parseFloat(totalPrice) : 0;
 
+  const [reservationDate, setReservationDate] = useState('');
+  const [reservationTime, setReservationTime] = useState('');
+
+  useEffect(() => {
+    const now = new Date();
+    const currentDate = getCurrentDate(); 
+    const currentTime = now.toTimeString().split(' ')[0].substring(0, 5); // HH:MM
+
+    setReservationDate(currentDate);
+    setReservationTime(currentTime);
+  }, []);
+
+  const getCurrentDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const getMinTime = () => {
+    if (reservationDate === getCurrentDate()) {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      return `${hours}:${minutes}`;
+    }
+    return '00:00';
+  };
+
+  const handleDateChange = (e) => {
+    const selectedDate = e.target.value;
+    if (selectedDate < getCurrentDate()) {
+      alert("Không thể chọn ngày trong quá khứ");
+      return;
+    }
+    setReservationDate(selectedDate);
+    // Reset thời gian nếu ngày thay đổi
+    setReservationTime('');
+  };
+
+
   useEffect(() => {
     const token = getTokenFromLocalStorage();
 
@@ -460,6 +502,28 @@ const Checkout = ({ tables }) => {
             </select>
 
           </div>
+
+          <div className={styles.payMethod}>
+          <h3>Thời gian đến</h3>
+          <div className={styles.timeSelection}>
+            <div className={styles.dateInput}>
+              <input 
+                type="date" 
+                value={reservationDate}
+                min={getCurrentDate()}
+                onChange={handleDateChange}
+              />
+            </div>
+            <div className={styles.timeInput}>
+              <input 
+                type="time" 
+                value={reservationTime}
+                min={getMinTime()}
+                onChange={(e) => setReservationTime(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
 
           <div className={styles.totalPriceBefore}>
             <p>
